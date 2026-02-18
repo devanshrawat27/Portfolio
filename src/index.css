@@ -1,0 +1,33 @@
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reset default page spacing and ensure full-bleed dark background */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #050505;
+  color: #fff;
+}
+
+/* Content ko background ke upar laane ke liye */
+main {
+  position: relative;
+  z-index: 10;
+  color: white;
+  /* allow pointer events so form inputs are interactive */
+  pointer-events: auto;
+}
+
+/* Button aur links ko clickable banane ke liye */
+a, button, .contact-btn {
+  pointer-events: all;
+}
+
+h1 {
+  font-family: 'Bebas Neue', sans-serif; /* Duncan Robert jaisa font */
+  font-size: 8rem;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+}
