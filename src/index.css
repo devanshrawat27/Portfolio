@@ -9,6 +9,7 @@ html, body, #root {
   padding: 0;
   background: #050505;
   color: #fff;
+  
 }
 
 /* Content ko background ke upar laane ke liye */
@@ -27,7 +28,16 @@ a, button, .contact-btn {
 
 h1 {
   font-family: 'Bebas Neue', sans-serif; /* Duncan Robert jaisa font */
-  font-size: 8rem;
+  /* responsive heading size: scales from small phones -> large screens */
+  font-size: clamp(1.8rem, 8vw, 5.5rem);
   text-transform: uppercase;
   letter-spacing: -2px;
 }
+
+/* Ensure base font and spacing are comfortable on small devices */
+@media (max-width: 420px) {
+  html, body { -webkit-text-size-adjust: 100%; }
+  h1 { letter-spacing: -1px; }
+}
+
+

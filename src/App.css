@@ -40,3 +40,68 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Responsive helpers and mobile tweaks */
+:root {
+  --container-max: 1280px;
+  --gap: 1.5rem;
+}
+
+/* Make root container fluid and centered */
+#root {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Make images and media scale */
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Simple grid helpers used by components */
+.row {
+  display: flex;
+  gap: var(--gap);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.col {
+  flex: 1 1 0;
+  min-width: 280px;
+}
+
+/* Global button/link sizing for mobile */
+.btn, button, a.button {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+/* Big headings scale down for small screens */
+h1 {
+  font-size: 4rem; /* default desktop fallback (overridden by index.css if used) */
+  margin: 0.25rem 0 0.5rem;
+}
+
+@media (max-width: 768px) {
+  :root { --gap: 1rem; }
+  #root { padding: 1.25rem; }
+  .col { min-width: 100%; flex-basis: 100%; }
+  h1 { font-size: 2.4rem; }
+  .logo { height: 3.5em; padding: 1rem; }
+  .card { padding: 1rem; }
+  .row { gap: 12px; }
+  .btn, button, a.button { width: 100%; text-align: center; padding: 0.9rem; }
+}
+
+@media (max-width: 420px) {
+  h1 { font-size: 1.8rem; letter-spacing: -0.5px; }
+  body { font-size: 15px; }
+  #root { padding: 0.75rem; }
+  .logo { height: 3em; padding: 0.6rem; }
+}

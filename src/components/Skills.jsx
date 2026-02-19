@@ -74,7 +74,6 @@ function Counter({ target, suffix = "" }) {
   return <span ref={ref}>{val}{suffix}</span>;
 }
 
-// ─── SKILL CARD — always-on glow, hover = MEGA boost ─────────────────────────
 function SkillCard({ skill, delay, onHover, onLeave }) {
   const [hov, setHov] = useState(false);
   const rar = RARITY[skill.rarity];
@@ -82,394 +81,134 @@ function SkillCard({ skill, delay, onHover, onLeave }) {
 
   return (
     <div
-      onMouseEnter={() => { setHov(true);  onHover(skill); }}
-      onMouseLeave={() => { setHov(false); onLeave();      }}
+      onMouseEnter={() => { setHov(true); onHover(skill); }}
+      onMouseLeave={() => { setHov(false); onLeave(); }}
       style={{
-        position:     "relative",
-        padding:      "18px 15px 15px",
-        borderRadius: 8,
-        // ── ALWAYS-ON: colored border, gradient bg ──
-        border:       `1px solid ${hov ? skill.color + "ee" : skill.color + "44"}`,
-        background:   hov
-          ? `linear-gradient(145deg, rgba(${rgb},0.18) 0%, #050505 100%)`
-          : `linear-gradient(145deg, rgba(${rgb},0.07) 0%, #0a0a0a 100%)`,
-        cursor:       "pointer",
-        overflow:     "hidden",
-        transform:    hov ? "scale(1.09) translateY(-10px)" : "scale(1) translateY(0px)",
-        transition:   "transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.25s, background 0.25s, box-shadow 0.25s",
-        // ── ALWAYS-ON: subtle glow shadow ──
-        boxShadow:    hov
-          ? `0 0 0 1px ${skill.color}88, 0 0 40px rgba(${rgb},0.35), 0 20px 40px rgba(0,0,0,0.8)`
-          : `0 0 16px rgba(${rgb},0.12), 0 4px 16px rgba(0,0,0,0.5)`,
-        animationName:           "tsCardIn",
-        animationDuration:       "0.5s",
-        animationTimingFunction: "ease",
-        animationFillMode:       "both",
-        animationDelay:          `${delay}ms`,
-        zIndex: hov ? 10 : 1,
+        position: "relative", padding: "18px 15px 15px", borderRadius: 8,
+        border: `1px solid ${hov ? skill.color + "ee" : skill.color + "44"}`,
+        background: hov ? `linear-gradient(145deg, rgba(${rgb},0.18) 0%, #050505 100%)` : `linear-gradient(145deg, rgba(${rgb},0.07) 0%, #0a0a0a 100%)`,
+        cursor: "pointer", overflow: "hidden",
+        transform: hov ? "scale(1.05) translateY(-6px)" : "scale(1) translateY(0px)",
+        transition: "transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.25s, background 0.25s, box-shadow 0.25s",
+        boxShadow: hov ? `0 0 0 1px ${skill.color}88, 0 0 40px rgba(${rgb},0.35), 0 20px 40px rgba(0,0,0,0.8)` : `0 0 16px rgba(${rgb},0.12), 0 4px 16px rgba(0,0,0,0.5)`,
+        animationName: "tsCardIn", animationDuration: "0.5s",
+        animationTimingFunction: "ease", animationFillMode: "both",
+        animationDelay: `${delay}ms`, zIndex: hov ? 10 : 1,
       }}
     >
-      {/* rarity stripe — always glowing */}
-      <div style={{
-        position: "absolute", top: 0, left: 0, right: 0, height: 3,
-        background: rar.color,
-        // ── ALWAYS-ON glow on stripe ──
-        boxShadow: hov ? `0 0 20px ${rar.color}` : `0 0 8px ${rar.color}88`,
-        borderRadius: "8px 8px 0 0",
-        transition: "box-shadow 0.25s",
-      }}/>
-
-      {/* scan line — always running, faster on hover */}
-      <div style={{
-        position: "absolute", left: 0, right: 0, height: 2,
-        background: `linear-gradient(90deg, transparent, ${skill.color}${hov ? "bb" : "44"}, transparent)`,
-        animationName: "tsScan",
-        animationDuration: hov ? "1.2s" : "3s",
-        animationTimingFunction: "linear",
-        animationIterationCount: "infinite",
-        pointerEvents: "none", zIndex: 5,
-        transition: "opacity 0.2s",
-      }}/>
-
-      {/* corner brackets — always visible, brighter on hover */}
-      {[
-        { top:8,    left:8,    borderTop:`2px solid ${skill.color}`, borderLeft:`2px solid ${skill.color}` },
-        { top:8,    right:8,   borderTop:`2px solid ${skill.color}`, borderRight:`2px solid ${skill.color}` },
-        { bottom:8, left:8,    borderBottom:`2px solid ${skill.color}`, borderLeft:`2px solid ${skill.color}` },
-        { bottom:8, right:8,   borderBottom:`2px solid ${skill.color}`, borderRight:`2px solid ${skill.color}` },
-      ].map((s, i) => (
-        <div key={i} style={{
-          position:"absolute", width:11, height:11,
-          // ── ALWAYS-ON: corners visible at 35%, full on hover ──
-          opacity: hov ? 1 : 0.35,
-          transition: "opacity 0.2s",
-          pointerEvents: "none",
-          ...s,
-        }}/>
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: rar.color, boxShadow: hov ? `0 0 20px ${rar.color}` : `0 0 8px ${rar.color}88`, borderRadius: "8px 8px 0 0", transition: "box-shadow 0.25s" }}/>
+      <div style={{ position: "absolute", left: 0, right: 0, height: 2, background: `linear-gradient(90deg, transparent, ${skill.color}${hov ? "bb" : "44"}, transparent)`, animationName: "tsScan", animationDuration: hov ? "1.2s" : "3s", animationTimingFunction: "linear", animationIterationCount: "infinite", pointerEvents: "none", zIndex: 5 }}/>
+      {[{ top:8, left:8, borderTop:`2px solid ${skill.color}`, borderLeft:`2px solid ${skill.color}` }, { top:8, right:8, borderTop:`2px solid ${skill.color}`, borderRight:`2px solid ${skill.color}` }, { bottom:8, left:8, borderBottom:`2px solid ${skill.color}`, borderLeft:`2px solid ${skill.color}` }, { bottom:8, right:8, borderBottom:`2px solid ${skill.color}`, borderRight:`2px solid ${skill.color}` }].map((s, i) => (
+        <div key={i} style={{ position:"absolute", width:11, height:11, opacity: hov ? 1 : 0.35, transition: "opacity 0.2s", pointerEvents: "none", ...s }}/>
       ))}
-
-      {/* rarity label */}
-      <div style={{
-        fontFamily: "'Courier New', monospace",
-        fontSize: 8, letterSpacing: "1.5px",
-        color: rar.color, marginBottom: 6,
-      }}>{rar.label}</div>
-
-      {/* category badge */}
-      <div style={{
-        display: "inline-block",
-        fontFamily: "'Courier New', monospace",
-        fontSize: 9, fontWeight: 700, letterSpacing: "1.5px",
-        padding: "2px 8px", marginBottom: 12, borderRadius: 2,
-        border: `1px solid ${skill.color}66`,
-        background: `rgba(${rgb},0.18)`,
-        color: skill.color,
-      }}>{skill.cat}</div>
-
-      {/* logo — always glowing, brighter on hover */}
+      <div style={{ fontFamily: "'Courier New', monospace", fontSize: 8, letterSpacing: "1.5px", color: rar.color, marginBottom: 6 }}>{rar.label}</div>
+      <div style={{ display: "inline-block", fontFamily: "'Courier New', monospace", fontSize: 9, fontWeight: 700, letterSpacing: "1.5px", padding: "2px 8px", marginBottom: 12, borderRadius: 2, border: `1px solid ${skill.color}66`, background: `rgba(${rgb},0.18)`, color: skill.color }}>{skill.cat}</div>
       <div style={{ position:"relative", display:"flex", justifyContent:"center", marginBottom: 11 }}>
-        <div style={{
-          width: 68, height: 68, borderRadius: 10,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          background: `rgba(${rgb},0.12)`,
-          // ── ALWAYS-ON logo glow ──
-          boxShadow: hov ? `0 0 36px rgba(${rgb},0.55)` : `0 0 18px rgba(${rgb},0.25)`,
-          transition: "box-shadow 0.3s",
-        }}>
-          <div style={{
-            // ── ALWAYS-ON drop shadow on logo ──
-            filter:    hov
-              ? `drop-shadow(0 0 12px ${skill.color})`
-              : `drop-shadow(0 0 5px ${skill.color}99)`,
-            transform: hov ? "scale(1.15)" : "scale(1)",
-            transition: "filter 0.3s, transform 0.3s",
-            display: "flex",
-          }}>{skill.logo}</div>
+        <div style={{ width: 68, height: 68, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", background: `rgba(${rgb},0.12)`, boxShadow: hov ? `0 0 36px rgba(${rgb},0.55)` : `0 0 18px rgba(${rgb},0.25)`, transition: "box-shadow 0.3s" }}>
+          <div style={{ filter: hov ? `drop-shadow(0 0 12px ${skill.color})` : `drop-shadow(0 0 5px ${skill.color}99)`, transform: hov ? "scale(1.15)" : "scale(1)", transition: "filter 0.3s, transform 0.3s", display: "flex" }}>{skill.logo}</div>
         </div>
-
-        {/* spinning ring — always spinning, faster & brighter on hover */}
-        <div style={{
-          position: "absolute",
-          top: -7, left: "50%", marginLeft: -41,
-          width: 82, height: 82, borderRadius: 16,
-          // ── ALWAYS-ON subtle ring ──
-          border: `2px solid ${skill.color}${hov ? "66" : "22"}`,
-          borderTopColor: skill.color,
-          animationName: "tsSpin",
-          animationDuration: hov ? "0.9s" : "3s",
-          animationTimingFunction: "linear",
-          animationIterationCount: "infinite",
-          pointerEvents: "none",
-          transition: "border-color 0.3s",
-        }}/>
+        <div style={{ position: "absolute", top: -7, left: "50%", marginLeft: -41, width: 82, height: 82, borderRadius: 16, border: `2px solid ${skill.color}${hov ? "66" : "22"}`, borderTopColor: skill.color, animationName: "tsSpin", animationDuration: hov ? "0.9s" : "3s", animationTimingFunction: "linear", animationIterationCount: "infinite", pointerEvents: "none", transition: "border-color 0.3s" }}/>
       </div>
-
-      {/* name — always colored, brighter on hover */}
-      <div style={{
-        fontFamily: "Impact, 'Arial Black', sans-serif",
-        fontSize: "1.05rem", letterSpacing: "2px",
-        textAlign: "center", marginBottom: 11,
-        // ── ALWAYS-ON: colored name ──
-        color:      hov ? "#fff" : skill.color + "cc",
-        textShadow: hov
-          ? `0 0 22px ${skill.color}`
-          : `0 0 10px ${skill.color}66`,
-        transition: "color 0.25s, text-shadow 0.25s",
-      }}>{skill.name}</div>
-
-      {/* power bar — ALWAYS filled */}
+      <div style={{ fontFamily: "Impact, 'Arial Black', sans-serif", fontSize: "1.05rem", letterSpacing: "2px", textAlign: "center", marginBottom: 11, color: hov ? "#fff" : skill.color + "cc", textShadow: hov ? `0 0 22px ${skill.color}` : `0 0 10px ${skill.color}66`, transition: "color 0.25s, text-shadow 0.25s" }}>{skill.name}</div>
       <div style={{ display:"flex", alignItems:"center", gap:5 }}>
-        <span style={{
-          fontFamily: "'Courier New', monospace",
-          fontSize: 8, letterSpacing: "2px",
-          color: `${skill.color}bb`, flexShrink: 0,
-        }}>PWR</span>
-
-        <div style={{
-          flex:1, height:5, borderRadius:2, position:"relative", overflow:"hidden",
-          background: "rgba(255,255,255,0.06)",
-        }}>
-          {/* ── ALWAYS-ON: bar always filled ── */}
-          <div style={{
-            height:"100%", borderRadius:2,
-            width: `${skill.power}%`,
-            background: hov
-              ? `linear-gradient(90deg, ${skill.color}88, ${skill.color})`
-              : `linear-gradient(90deg, ${skill.color}44, ${skill.color}99)`,
-            boxShadow: hov ? `0 0 10px ${skill.color}` : `0 0 4px ${skill.color}66`,
-            transition: "background 0.3s, box-shadow 0.3s",
-          }}/>
-          {[25,50,75].map(t => (
-            <div key={t} style={{
-              position:"absolute", top:0, bottom:0,
-              left:`${t}%`, width:1, background:"rgba(0,0,0,0.5)",
-            }}/>
-          ))}
+        <span style={{ fontFamily: "'Courier New', monospace", fontSize: 8, letterSpacing: "2px", color: `${skill.color}bb`, flexShrink: 0 }}>PWR</span>
+        <div style={{ flex:1, height:5, borderRadius:2, position:"relative", overflow:"hidden", background: "rgba(255,255,255,0.06)" }}>
+          <div style={{ height:"100%", borderRadius:2, width: `${skill.power}%`, background: hov ? `linear-gradient(90deg, ${skill.color}88, ${skill.color})` : `linear-gradient(90deg, ${skill.color}44, ${skill.color}99)`, boxShadow: hov ? `0 0 10px ${skill.color}` : `0 0 4px ${skill.color}66`, transition: "background 0.3s, box-shadow 0.3s" }}/>
+          {[25,50,75].map(t => <div key={t} style={{ position:"absolute", top:0, bottom:0, left:`${t}%`, width:1, background:"rgba(0,0,0,0.5)" }}/>)}
         </div>
-
-        {/* ── ALWAYS show power number ── */}
-        <span style={{
-          fontFamily: "'Courier New', monospace",
-          fontSize: 9, flexShrink: 0, minWidth: 22, textAlign: "right",
-          color: skill.color,
-          opacity: hov ? 1 : 0.7,
-          transition: "opacity 0.25s",
-        }}>{skill.power}</span>
+        <span style={{ fontFamily: "'Courier New', monospace", fontSize: 9, flexShrink: 0, minWidth: 22, textAlign: "right", color: skill.color, opacity: hov ? 1 : 0.7, transition: "opacity 0.25s" }}>{skill.power}</span>
       </div>
-
-      {/* gloss overlay */}
-      <div style={{
-        position:"absolute", inset:0, borderRadius:8, pointerEvents:"none",
-        background:"linear-gradient(135deg,rgba(255,255,255,0.04) 0%,transparent 55%)",
-      }}/>
-
-      {/* hover: extra particle burst corners */}
+      <div style={{ position:"absolute", inset:0, borderRadius:8, pointerEvents:"none", background:"linear-gradient(135deg,rgba(255,255,255,0.04) 0%,transparent 55%)" }}/>
       {hov && (
         <>
-          <div style={{
-            position:"absolute", top:0, left:0, right:0, bottom:0,
-            borderRadius:8, pointerEvents:"none",
-            background: `radial-gradient(ellipse at 50% 0%, rgba(${rgb},0.18) 0%, transparent 65%)`,
-          }}/>
-          <div style={{
-            position:"absolute", bottom:-1, left:0, right:0, height:2,
-            background:`linear-gradient(90deg, transparent, ${skill.color}, transparent)`,
-            animationName:"tsBottomPulse",
-            animationDuration:"1.5s",
-            animationTimingFunction:"ease-in-out",
-            animationIterationCount:"infinite",
-          }}/>
+          <div style={{ position:"absolute", top:0, left:0, right:0, bottom:0, borderRadius:8, pointerEvents:"none", background: `radial-gradient(ellipse at 50% 0%, rgba(${rgb},0.18) 0%, transparent 65%)` }}/>
+          <div style={{ position:"absolute", bottom:-1, left:0, right:0, height:2, background:`linear-gradient(90deg, transparent, ${skill.color}, transparent)`, animationName:"tsBottomPulse", animationDuration:"1.5s", animationTimingFunction:"ease-in-out", animationIterationCount:"infinite" }}/>
         </>
       )}
     </div>
   );
 }
 
-// ─── MAIN ─────────────────────────────────────────────────────────────────────
 export default function Skills() {
   const [filter, setFilter]      = useState("ALL");
   const [activeSkill, setActive] = useState(null);
-  const [tilt, setTilt]          = useState({ x:0, y:0 });
+  const [isMobile, setIsMobile]  = useState(window.innerWidth < 768);
   const sectionRef               = useRef(null);
 
-  const handleMove = useCallback((e) => {
-    if (!sectionRef.current) return;
-    const r = sectionRef.current.getBoundingClientRect();
-    setTilt({
-      x: ((e.clientY - r.top)  / r.height - 0.5) * 4,
-      y: ((e.clientX - r.left) / r.width  - 0.5) * -4,
-    });
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const filtered = filter === "ALL" ? SKILLS : SKILLS.filter(s => s.cat === filter);
 
   return (
-    <section
-      id="skills"
-      ref={sectionRef}
-      onMouseMove={handleMove}
-      style={{
-        background: "#000000",
-        minHeight: "100vh",
-        padding: "100px 0 0",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
+    <section id="skills" ref={sectionRef} style={{ background: "#000000", minHeight: "100vh", padding: "clamp(60px,10vw,100px) 0 0", position: "relative", overflow: "hidden" }}>
       <style>{`
-        @keyframes tsCardIn {
-          from { opacity:0; transform: scale(0.65) translateY(28px) rotate(-3deg); }
-          to   { opacity:1; transform: scale(1)    translateY(0px)  rotate(0deg); }
-        }
-        @keyframes tsScan {
-          from { top: -4%; }
-          to   { top: 108%; }
-        }
-        @keyframes tsSpin {
-          to { transform: rotate(360deg); }
-        }
-        @keyframes tsBottomPulse {
-          0%,100% { opacity:0.4; }
-          50%     { opacity:1; }
-        }
+        @keyframes tsCardIn { from { opacity:0; transform: scale(0.65) translateY(28px); } to { opacity:1; transform: scale(1) translateY(0px); } }
+        @keyframes tsScan { from { top: -4%; } to { top: 108%; } }
+        @keyframes tsSpin { to { transform: rotate(360deg); } }
+        @keyframes tsBottomPulse { 0%,100% { opacity:0.4; } 50% { opacity:1; } }
       `}</style>
 
-      {/* diagonal grid */}
-      <div style={{
-        position:"absolute", inset:0, zIndex:0, pointerEvents:"none",
-        backgroundImage:"repeating-linear-gradient(-45deg,rgba(163,230,53,0.014) 0px,rgba(163,230,53,0.014) 1px,transparent 1px,transparent 52px)",
-      }}/>
-
-      {/* center glow */}
-      <div style={{
-        position:"absolute", top:"40%", left:"50%",
-        transform:"translate(-50%,-50%)",
-        width:700, height:500, borderRadius:"50%",
-        background:"radial-gradient(ellipse,rgba(163,230,53,0.04) 0%,transparent 70%)",
-        pointerEvents:"none", zIndex:0,
-      }}/>
+      <div style={{ position:"absolute", inset:0, zIndex:0, pointerEvents:"none", backgroundImage:"repeating-linear-gradient(-45deg,rgba(163,230,53,0.014) 0px,rgba(163,230,53,0.014) 1px,transparent 1px,transparent 52px)" }}/>
+      <div style={{ position:"absolute", top:"40%", left:"50%", transform:"translate(-50%,-50%)", width:700, height:500, borderRadius:"50%", background:"radial-gradient(ellipse,rgba(163,230,53,0.04) 0%,transparent 70%)", pointerEvents:"none", zIndex:0 }}/>
 
       {/* HEADER */}
-      <div style={{
-        position:"relative", zIndex:2,
-        display:"flex", justifyContent:"space-between",
-        alignItems:"flex-end", flexWrap:"wrap",
-        padding:"0 60px 52px", gap:40,
-      }}>
+      <div style={{ position:"relative", zIndex:2, display:"flex", justifyContent:"space-between", alignItems:"flex-end", flexWrap:"wrap", padding:`0 clamp(20px,5vw,60px) clamp(28px,5vw,52px)`, gap: isMobile ? 16 : 40 }}>
         <div>
-          <div style={{
-            fontFamily:"'Courier New',monospace",
-            fontSize:11, color:"#a3e635", letterSpacing:"6px", marginBottom:18,
-            display:"flex", alignItems:"center", gap:12,
-          }}>
+          <div style={{ fontFamily:"'Courier New',monospace", fontSize:11, color:"#a3e635", letterSpacing:"6px", marginBottom:18, display:"flex", alignItems:"center", gap:12 }}>
             <span style={{ width:28, height:1, background:"#a3e635", display:"block" }}/>
             ARSENAL_V2
             <span style={{ width:28, height:1, background:"#a3e635", display:"block" }}/>
           </div>
-          <h2 style={{
-            fontFamily:"Impact,'Arial Black',sans-serif",
-            fontSize:"clamp(3.8rem,8vw,7.5rem)",
-            lineHeight:0.88, color:"#fff", margin:0, letterSpacing:"4px",
-          }}>
-            TECH<br/>
-            <span style={{ color:"#a3e635" }}>STACK</span>
+          <h2 style={{ fontFamily:"Impact,'Arial Black',sans-serif", fontSize:"clamp(2.8rem,10vw,7.5rem)", lineHeight:0.88, color:"#fff", margin:0, letterSpacing:"4px" }}>
+            TECH<br/><span style={{ color:"#a3e635" }}>STACK</span>
           </h2>
         </div>
-
-        <div style={{ maxWidth:340, borderLeft:"2px solid #1a2a0a", paddingLeft:24 }}>
-          <p style={{
-            fontFamily:"'Courier New',monospace",
-            fontSize:12, color:"#3a5a20", lineHeight:"2.1", margin:"0 0 18px",
-          }}>
-            {">"} Battle-tested tools.<br/>
-            {">"} Real projects, real code.<br/>
-            {">"} Hover a card to activate.
-          </p>
-          <p style={{
-            fontFamily:"Impact,'Arial Black',sans-serif",
-            fontSize:"2rem", margin:0, letterSpacing:"2px",
-            color:      activeSkill ? activeSkill.color : "#1c2a10",
-            textShadow: activeSkill ? `0 0 28px ${activeSkill.color}80` : "none",
-            transition: "color 0.2s, text-shadow 0.2s",
-          }}>
-            {activeSkill ? `// ${activeSkill.name}` : "// SELECT SKILL"}
-          </p>
-        </div>
+        {!isMobile && (
+          <div style={{ maxWidth:340, borderLeft:"2px solid #1a2a0a", paddingLeft:24 }}>
+            <p style={{ fontFamily:"'Courier New',monospace", fontSize:12, color:"#3a5a20", lineHeight:"2.1", margin:"0 0 18px" }}>
+              {">"} Battle-tested tools.<br/>{">"} Real projects, real code.<br/>{">"} Hover a card to activate.
+            </p>
+            <p style={{ fontFamily:"Impact,'Arial Black',sans-serif", fontSize:"2rem", margin:0, letterSpacing:"2px", color: activeSkill ? activeSkill.color : "#1c2a10", textShadow: activeSkill ? `0 0 28px ${activeSkill.color}80` : "none", transition: "color 0.2s, text-shadow 0.2s" }}>
+              {activeSkill ? `// ${activeSkill.name}` : "// SELECT SKILL"}
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* FILTERS */}
-      <div style={{
-        position:"relative", zIndex:2,
-        display:"flex", gap:8, padding:"0 60px 44px", flexWrap:"wrap",
-      }}>
+      {/* FILTERS — horizontal scroll on mobile */}
+      <div style={{ position:"relative", zIndex:2, display:"flex", gap:8, padding:`0 clamp(20px,5vw,60px) clamp(24px,4vw,44px)`, flexWrap: isMobile ? "nowrap" : "wrap", overflowX: isMobile ? "auto" : "visible", paddingBottom: isMobile ? "16px" : undefined, WebkitOverflowScrolling: "touch" }}>
         {CATS.map(c => {
           const on = filter === c;
           return (
-            <button key={c} onClick={() => setFilter(c)} style={{
-              fontFamily:"'Courier New',monospace",
-              fontSize:11, letterSpacing:"2px", padding:"9px 22px", borderRadius:3,
-              border:`1px solid ${on ? "#a3e635" : "rgba(255,255,255,0.1)"}`,
-              background: on ? "#a3e635" : "transparent",
-              color: on ? "#000" : "#3a5a3a",
-              cursor:"pointer", fontWeight: on ? 700 : 400,
-              boxShadow: on ? "0 0 20px rgba(163,230,53,0.35)" : "none",
-              transition:"all 0.2s",
-            }}>{c}</button>
+            <button key={c} onClick={() => setFilter(c)} style={{ fontFamily:"'Courier New',monospace", fontSize: isMobile ? 10 : 11, letterSpacing:"2px", padding: isMobile ? "7px 14px" : "9px 22px", borderRadius:3, border:`1px solid ${on ? "#a3e635" : "rgba(255,255,255,0.1)"}`, background: on ? "#a3e635" : "transparent", color: on ? "#000" : "#3a5a3a", cursor:"pointer", fontWeight: on ? 700 : 400, boxShadow: on ? "0 0 20px rgba(163,230,53,0.35)" : "none", transition:"all 0.2s", flexShrink: 0, whiteSpace: "nowrap" }}>{c}</button>
           );
         })}
       </div>
 
-      {/* CARD GRID */}
-      <div style={{
-        position:"relative", zIndex:2,
-        display:"grid",
-        gridTemplateColumns:"repeat(auto-fill,minmax(168px,1fr))",
-        gap:14, padding:"0 60px",
-        perspective:1200,
-        transform:`rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-        transition:"transform 0.1s linear",
-      }}>
+      {/* CARD GRID — 2 cols on mobile, auto on desktop */}
+      <div style={{ position:"relative", zIndex:2, display:"grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(auto-fill,minmax(168px,1fr))", gap: isMobile ? 10 : 14, padding:`0 clamp(16px,4vw,60px)` }}>
         {filtered.map((skill, i) => (
-          <SkillCard
-            key={skill.name}
-            skill={skill}
-            delay={i * 40}
-            onHover={setActive}
-            onLeave={() => setActive(null)}
-          />
+          <SkillCard key={skill.name} skill={skill} delay={i * 40} onHover={setActive} onLeave={() => setActive(null)} />
         ))}
       </div>
 
-      {/* STATS */}
-      <div style={{
-        position:"relative", zIndex:2,
-        display:"grid", gridTemplateColumns:"repeat(4,1fr)",
-        borderTop:"1px solid #111", marginTop:60,
-      }}>
+      {/* STATS — 2x2 on mobile, 4 cols on desktop */}
+      <div style={{ position:"relative", zIndex:2, display:"grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4,1fr)", borderTop:"1px solid #111", marginTop: isMobile ? 40 : 60 }}>
         {[
           { target: filtered.length, suffix:"+",    label:"TECHNOLOGIES" },
           { target: 5,               suffix:"+",    label:"PROJECTS SHIPPED" },
           { target: 3,               suffix:" YRS", label:"EXPERIENCE" },
           { target: 50,              suffix:"K+",   label:"LINES OF CODE" },
         ].map(({ target, suffix, label }, i) => (
-          <div key={label} style={{
-            padding:"48px 20px", textAlign:"center",
-            borderRight: i < 3 ? "1px solid #111" : "none",
-            background: "#000",
-          }}>
-            <span style={{
-              fontFamily:"Impact,'Arial Black',sans-serif",
-              fontSize:"clamp(2.6rem,4.5vw,4.2rem)",
-              color:"#a3e635", display:"block", lineHeight:1,
-              textShadow:"0 0 35px rgba(163,230,53,0.4)", letterSpacing:"2px",
-            }}>
+          <div key={label} style={{ padding: isMobile ? "32px 10px" : "48px 20px", textAlign:"center", borderRight: isMobile ? (i % 2 === 0 ? "1px solid #111" : "none") : (i < 3 ? "1px solid #111" : "none"), borderBottom: isMobile && i < 2 ? "1px solid #111" : "none", background:"#000" }}>
+            <span style={{ fontFamily:"Impact,'Arial Black',sans-serif", fontSize:"clamp(2rem,8vw,4.2rem)", color:"#a3e635", display:"block", lineHeight:1, textShadow:"0 0 35px rgba(163,230,53,0.4)", letterSpacing:"2px" }}>
               <Counter target={target} suffix={suffix}/>
             </span>
-            <span style={{
-              fontFamily:"'Courier New',monospace",
-              fontSize:10, color:"#2a4a1a", letterSpacing:"4px",
-              display:"block", marginTop:8,
-            }}>{label}</span>
+            <span style={{ fontFamily:"'Courier New',monospace", fontSize: isMobile ? 8 : 10, color:"#2a4a1a", letterSpacing: isMobile ? "2px" : "4px", display:"block", marginTop:8 }}>{label}</span>
           </div>
         ))}
       </div>
