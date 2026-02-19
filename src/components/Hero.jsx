@@ -66,7 +66,7 @@ const Hero = () => {
             overflow: "hidden", border: "1px solid #333",
             boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
           }}>
-            <img src="/pass.jpg" alt="Devansh" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src="/pass.jpg" alt="Devansh"  loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <motion.div style={{ position: "absolute", bottom: "-10px", left: "-30px", opacity: badgeOpacity }}>
             <motion.div
