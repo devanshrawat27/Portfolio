@@ -17,10 +17,14 @@ const SKILLS = [
     logo: <svg viewBox="0 0 32 32" width="34" height="34"><path d="M16 2L2 9.5v13L16 30l14-7.5v-13z" fill="#6BCB4C"/><text x="16" y="21" textAnchor="middle" fontSize="9" fontWeight="900" fill="#fff">js</text></svg> },
   { name: "Express",     cat: "BACKEND",  color: "#bbbbbb", power: 80, rarity: "RARE",
     logo: <svg viewBox="0 0 128 128" width="40" height="40"><path fill="#bbb" d="M126.67 98.44c-4.56 1.16-7.38.05-9.91-3.75-5.68-8.51-11.95-16.63-18-24.93-.92-1.26-1.78-2.58-2.82-4.14-9.26 12.61-18.31 24.37-27 36.39-2.26 3.14-4.85 4.43-8.78 3.43l35.49-48.2-33.16-43.55c4.46-.56 7.25.45 9.77 4.13 5.51 7.99 11.57 15.63 17.39 23.43 1.11 1.49 2.16 3.01 3.28 4.58 9.71-13.2 19.28-26.08 27.05-40.36 2.21 1.41 4.38 2.72 6.41 4.17.56.39.85 1.48 1.03 2.29z"/></svg> },
+  { name: "Socket.io",   cat: "BACKEND",  color: "#ffffff", power: 90, rarity: "EPIC",
+    logo: <svg viewBox="0 0 32 32" width="34" height="34"><circle cx="16" cy="16" r="14" fill="#010101"/><path d="M16 6a10 10 0 0110 10c0 2.2-.7 4.2-2 5.8l-2-2a7 7 0 001-3.8 7 7 0 00-7-7V6zM16 26a10 10 0 01-10-10c0-2.2.7-4.2 2-5.8l2 2a7 7 0 00-1 3.8 7 7 0 007 7v2z" fill="#fff"/></svg> },
   { name: "Python",      cat: "BACKEND",  color: "#FFD43B", power: 83, rarity: "EPIC",
     logo: <svg viewBox="0 0 32 32" width="34" height="34"><path d="M15.9 2C11.2 2 8 4 8 7.3V10h8v1H5.5C3 11 1 13.5 1 17s2 6.3 4.5 6.3H7V20c0-2.6 2.5-4.7 5.5-4.7h7c2.6 0 4.5-1.7 4.5-4.3V7.3C24 4 20.6 2 15.9 2zm-3.4 3.5c.8 0 1.5.6 1.5 1.4s-.7 1.4-1.5 1.4-1.5-.6-1.5-1.4.7-1.4 1.5-1.4z" fill="#3776AB"/><path d="M16.1 30c4.7 0 7.9-2 7.9-5.3V22h-8v-1h10.5c2.5 0 4.5-2.5 4.5-6s-2-6.3-4.5-6.3H25v3.3c0 2.6-2.5 4.7-5.5 4.7h-7c-2.6 0-4.5 1.7-4.5 4.3v6.7C8 28 11.4 30 16.1 30zm3.4-3.5c-.8 0-1.5-.6-1.5-1.4s.7-1.4 1.5-1.4 1.5.6 1.5 1.4-.7 1.4-1.5 1.4z" fill="#FFD43B"/></svg> },
   { name: "MongoDB",     cat: "DATABASE", color: "#47A248", power: 87, rarity: "EPIC",
     logo: <svg viewBox="0 0 32 32" width="34" height="34"><path d="M16 2C9 2 4 8 4 15c0 5.5 3 10 7.5 12.5L16 30l4.5-2.5C25 25 28 20.5 28 15c0-7-5-13-12-13zm0 24l-2-1.2C10.5 22.7 8 19 8 15c0-4.4 3.1-8 7.5-8.4V26z" fill="#47A248"/></svg> },
+  { name: "Firebase",    cat: "DATABASE", color: "#FFCA28", power: 88, rarity: "EPIC",
+    logo: <svg viewBox="0 0 32 32" width="34" height="34"><path d="M6.2 24.3L15.3 4c.3-.6 1.1-.6 1.4 0l2.3 4.3-9.8 16z" fill="#FFC107"/><path d="M25.6 24.2l-2.7-14.7c-.1-.7-.9-1-1.4-.5l-5.5 5.5 9.6 9.7z" fill="#FF3D00"/><path d="M16.5 25.6l-9-9.1-1.3 7.8c-.1.7.5 1.3 1.2 1.1l9.1-2.8c.8-.2.8-1 0-.3z" fill="#FFCA28"/></svg> },
   { name: "PostgreSQL",  cat: "DATABASE", color: "#336791", power: 82, rarity: "RARE",
     logo: <svg viewBox="0 0 32 32" width="34" height="34"><ellipse cx="16" cy="14" rx="10" ry="11" fill="none" stroke="#336791" strokeWidth="2"/><path d="M6 14h20M16 3v22" stroke="#336791" strokeWidth="1" opacity=".5"/><circle cx="16" cy="14" r="4" fill="#336791" opacity=".4"/></svg> },
   { name: "MySQL",       cat: "DATABASE", color: "#F29111", power: 78, rarity: "RARE",
@@ -35,6 +39,10 @@ const SKILLS = [
     logo: <svg viewBox="0 0 80 50" width="44" height="28"><text x="40" y="20" textAnchor="middle" fontSize="16" fill="#FF9900" fontWeight="800" fontFamily="monospace">AWS</text><path d="M10 35c-4 2-6 4-6 6 0 4 5 6 12 6s12-2 12-6" fill="none" stroke="#FF9900" strokeWidth="2.5" strokeLinecap="round"/><path d="M12 26h8l4 12h3l4-12h8" fill="none" stroke="#FF9900" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
   { name: "OpenAI",      cat: "AI/ML",    color: "#10a37f", power: 97, rarity: "LEGENDARY",
     logo: <svg viewBox="0 0 32 32" width="34" height="34"><path d="M28.8 14.5a7.7 7.7 0 00-.7-6.4 8 8 0 00-8.5-3.8A7.7 7.7 0 0014 2a8 8 0 00-7.6 5.5 7.7 7.7 0 00-5.1 3.7 8 8 0 001 9.3 7.7 7.7 0 00.7 6.4 8 8 0 008.5 3.8A7.7 7.7 0 0018 31a8 8 0 007.6-5.5 7.7 7.7 0 005.1-3.7 8 8 0 00-1-7.3z" fill="none" stroke="#10a37f" strokeWidth="1.5"/><circle cx="16" cy="16" r="3" fill="#10a37f"/></svg> },
+  { name: "Gemini API",  cat: "AI/ML",    color: "#8E75FF", power: 92, rarity: "LEGENDARY",
+    logo: <svg viewBox="0 0 32 32" width="34" height="34"><path d="M16 2C16 10 10 16 2 16c8 0 14 6 14 14 0-8 6-14 14-14-8 0-14-6-14-14z" fill="url(#geminiGrad)"/><defs><linearGradient id="geminiGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#9BC5FF"/><stop offset="50%" stopColor="#2F80ED"/><stop offset="100%" stopColor="#8E75FF"/></linearGradient></defs></svg> },
+  { name: "PyTorch",     cat: "AI/ML",    color: "#EE4C2C", power: 86, rarity: "EPIC",
+    logo: <svg viewBox="0 0 32 32" width="34" height="34"><path d="M16 3C9.4 3 6 8.2 6 12.8c0 4.2 3.8 6.8 3.8 6.8s-2-1.5-2-4c0-3.1 2.8-5 5.2-5 2.4 0 4 1.8 4 5 0 3.8-4.2 8.5-7.5 11.4h13.5c-3-3.2-9-7.5-9-12.2 0-4.2 4.2-8.8-.2-11.8z" fill="#EE4C2C"/><circle cx="11.5" cy="17.5" r="2.2" fill="#EE4C2C"/></svg> },
   { name: "WebRTC",      cat: "BACKEND",  color: "#a3e635", power: 75, rarity: "RARE",
     logo: <svg viewBox="0 0 32 32" width="34" height="34"><circle cx="16" cy="16" r="13" fill="none" stroke="#a3e635" strokeWidth="1.5"/><circle cx="10" cy="12" r="3" fill="#a3e635" opacity=".8"/><circle cx="22" cy="12" r="3" fill="#a3e635" opacity=".8"/><circle cx="16" cy="22" r="3" fill="#a3e635"/><line x1="13" y1="12" x2="19" y2="12" stroke="#a3e635" strokeWidth="1"/><line x1="11" y1="14" x2="15" y2="20" stroke="#a3e635" strokeWidth="1"/><line x1="21" y1="14" x2="17" y2="20" stroke="#a3e635" strokeWidth="1"/></svg> },
 ];
@@ -193,23 +201,6 @@ export default function Skills() {
       <div style={{ position:"relative", zIndex:2, display:"grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(auto-fill,minmax(168px,1fr))", gap: isMobile ? 10 : 14, padding:`0 clamp(16px,4vw,60px)` }}>
         {filtered.map((skill, i) => (
           <SkillCard key={skill.name} skill={skill} delay={i * 40} onHover={setActive} onLeave={() => setActive(null)} />
-        ))}
-      </div>
-
-      {/* STATS — 2x2 on mobile, 4 cols on desktop */}
-      <div style={{ position:"relative", zIndex:2, display:"grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4,1fr)", borderTop:"1px solid #111", marginTop: isMobile ? 40 : 60 }}>
-        {[
-          { target: filtered.length, suffix:"+",    label:"TECHNOLOGIES" },
-          { target: 5,               suffix:"+",    label:"PROJECTS SHIPPED" },
-          { target: 3,               suffix:" YRS", label:"EXPERIENCE" },
-          { target: 50,              suffix:"K+",   label:"LINES OF CODE" },
-        ].map(({ target, suffix, label }, i) => (
-          <div key={label} style={{ padding: isMobile ? "32px 10px" : "48px 20px", textAlign:"center", borderRight: isMobile ? (i % 2 === 0 ? "1px solid #111" : "none") : (i < 3 ? "1px solid #111" : "none"), borderBottom: isMobile && i < 2 ? "1px solid #111" : "none", background:"#000" }}>
-            <span style={{ fontFamily:"Impact,'Arial Black',sans-serif", fontSize:"clamp(2rem,8vw,4.2rem)", color:"#a3e635", display:"block", lineHeight:1, textShadow:"0 0 35px rgba(163,230,53,0.4)", letterSpacing:"2px" }}>
-              <Counter target={target} suffix={suffix}/>
-            </span>
-            <span style={{ fontFamily:"'Courier New',monospace", fontSize: isMobile ? 8 : 10, color:"#2a4a1a", letterSpacing: isMobile ? "2px" : "4px", display:"block", marginTop:8 }}>{label}</span>
-          </div>
         ))}
       </div>
     </section>

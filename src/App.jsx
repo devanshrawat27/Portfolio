@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import Preloader from "./components/preloader";
 
@@ -10,6 +11,7 @@ import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Contact from './components/contact';
 import Footer from "./components/footer";
+import SectionTransition from "./components/SectionTransition";
 
 
 function App() {
@@ -17,18 +19,24 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <>
+    <AnimatePresence mode="wait">
 
       {/* PRELOADER */}
       {loading && (
-        <Preloader onComplete={() => setLoading(false)} />
+        <Preloader key="preloader" onComplete={() => setLoading(false)} />
       )}
 
 
       {/* MAIN PORTFOLIO */}
       {!loading && (
 
-        <div style={{ background: '#050505', minHeight: '300vh' }}>
+        <motion.div
+          key="portfolio"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
+          style={{ background: '#050505', minHeight: '300vh' }}
+        >
 
           <Cursor />
           <Navbar />
@@ -36,19 +44,34 @@ function App() {
           <main style={{ overflow: 'visible' }}>
 
             <Hero />
-            <About />
-            <Projects />
-            <Skills />
-            <Contact />
-            <Footer />
+
+            <SectionTransition offset={70} index={1}>
+              <About />
+            </SectionTransition>
+
+            <SectionTransition offset={80} index={2}>
+              <Projects />
+            </SectionTransition>
+
+            <SectionTransition offset={70} index={3}>
+              <Skills />
+            </SectionTransition>
+
+            <SectionTransition offset={60} index={4}>
+              <Contact />
+            </SectionTransition>
+
+            <SectionTransition offset={40} index={5}>
+              <Footer />
+            </SectionTransition>
 
           </main>
 
-        </div>
+        </motion.div>
 
       )}
 
-    </>
+    </AnimatePresence>
   );
 }
 

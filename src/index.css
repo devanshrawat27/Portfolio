@@ -1,5 +1,7 @@
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Reset default page spacing and ensure full-bleed dark background */
@@ -9,7 +11,12 @@ html, body, #root {
   padding: 0;
   background: #050505;
   color: #fff;
-  
+}
+
+/* GPU-accelerated section transitions */
+section {
+  will-change: auto;
+  transform: translateZ(0);
 }
 
 /* Content ko background ke upar laane ke liye */
