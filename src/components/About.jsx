@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaTwitter, FaInstagram, FaDownload } from "react-icons/fa";
+import { HiAcademicCap, HiOutlineCalendar, HiOutlineLocationMarker } from "react-icons/hi";
 
 const About = () => {
   const [hovBtn, setHovBtn] = useState(false);
@@ -28,9 +29,24 @@ const About = () => {
 
       <div style={{ maxWidth: 640, width: "100%", display: "flex", flexDirection: "column", gap: "clamp(20px, 4vw, 32px)" }}>
 
-        <motion.div {...fadeUp(0)} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div style={{ width: 28, height: 1.5, background: "#a3e635" }} />
-          <span style={{ fontFamily: "'Courier New', monospace", color: "#a3e635", fontSize: "10px", letterSpacing: "4px" }}>WHO_AM_I</span>
+        <motion.div
+          {...fadeUp(0)}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "5px 14px",
+            borderRadius: "100px",
+            background: "linear-gradient(135deg, rgba(163,230,53,0.1) 0%, rgba(163,230,53,0.02) 100%)",
+            border: "1px solid rgba(163,230,53,0.28)",
+            boxShadow: "0 0 16px rgba(163,230,53,0.08)",
+            alignSelf: "flex-start",
+          }}
+        >
+          <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#a3e635", boxShadow: "0 0 8px #a3e635" }} />
+          <span style={{ fontFamily: "'JetBrains Mono', 'Courier New', monospace", color: "#a3e635", fontSize: "11px", letterSpacing: "3px", fontWeight: 800 }}>
+            WHO_AM_I
+          </span>
         </motion.div>
 
         <motion.h2 {...fadeUp(0.05)} style={{
@@ -46,113 +62,208 @@ const About = () => {
         </motion.p>
 
         <motion.p {...fadeUp(0.12)} style={{ fontSize: "clamp(14px, 3.5vw, 16px)", color: "#aaaaaa", lineHeight: "1.85", margin: 0 }}>
-          I build intelligent applications powered by <span style={{ color: "#e0e0e0", fontWeight: 600 }}>LLMs, AI Agents, and RAG</span> while developing scalable full-stack products using <span style={{ color: "#e0e0e0", fontWeight: 600 }}>React, Node.js</span>, and modern backend technologies. I'm focused on creating practical AI solutions that solve real-world problems.
+          I build intelligent applications powered by <span style={{ color: "#e0e0e0", fontWeight: 600 }}>LLMs, AI Agents, and RAG</span> while developing scalable full-stack products using <span style={{ color: "#e0e0e0", fontWeight: 600 }}>React, Next.js, Node.js</span>, and modern backend technologies. I'm focused on creating practical AI solutions that solve real-world problems.
         </motion.p>
 
         {/* Education */}
         <motion.div {...fadeUp(0.15)}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "0 0 14px" }}>
             <div style={{ width: 28, height: 1.5, background: "rgba(163,230,53,0.3)" }} />
-            <span style={{ fontFamily: "'Courier New', monospace", color: "#555", fontSize: "10px", letterSpacing: "3px" }}>EDUCATION</span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", color: "#a3e635", fontSize: "10px", letterSpacing: "3px", fontWeight: 700 }}>EDUCATION</span>
           </div>
 
-          <div onMouseEnter={() => setHovEdu(true)} onMouseLeave={() => setHovEdu(false)}
+          <div
+            onMouseEnter={() => setHovEdu(true)}
+            onMouseLeave={() => setHovEdu(false)}
             style={{
-              position: "relative", overflow: "hidden", cursor: "default",
-              borderRadius: "20px",
-              padding: "1px",
-              background: hovEdu
-                ? "linear-gradient(135deg, rgba(163,230,53,0.4), rgba(163,230,53,0.08), rgba(163,230,53,0.25))"
-                : "linear-gradient(135deg, #1a1a1a, #111, #1a1a1a)",
-              transition: "all 0.5s cubic-bezier(0.22,1,0.36,1)",
-              transform: hovEdu ? "translateY(-3px)" : "translateY(0)",
-              boxShadow: hovEdu
-                ? "0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(163,230,53,0.06)"
-                : "0 4px 24px rgba(0,0,0,0.3)",
-            }}>
-            {/* Inner container */}
-            <div style={{
-              display: "flex", alignItems: "center", gap: "clamp(14px, 3vw, 22px)",
-              padding: "clamp(20px, 4vw, 28px) clamp(20px, 4vw, 30px)",
-              borderRadius: "19px",
-              background: hovEdu
-                ? "linear-gradient(135deg, rgba(163,230,53,0.05) 0%, #090909 40%, #0a0a0a 100%)"
-                : "linear-gradient(135deg, #0c0c0c 0%, #090909 100%)",
               position: "relative",
-            }}>
-              {/* Scan line */}
-              {hovEdu && <div style={{ position: "absolute", left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(163,230,53,0.25), transparent)", animation: "eduScan 2s linear infinite", pointerEvents: "none", zIndex: 5 }} />}
-              {/* Corner glow */}
-              <div style={{
-                position: "absolute", top: -60, right: -60, width: 160, height: 160,
-                background: `radial-gradient(circle, rgba(163,230,53,${hovEdu ? "0.07" : "0.02"}) 0%, transparent 70%)`,
-                pointerEvents: "none", transition: "all 0.5s",
-              }} />
+              overflow: "hidden",
+              cursor: "default",
+              borderRadius: "24px",
+              padding: "clamp(22px, 4vw, 28px)",
+              background: hovEdu
+                ? "linear-gradient(145deg, rgba(163,230,53,0.08) 0%, rgba(12,12,16,0.96) 100%)"
+                : "linear-gradient(145deg, rgba(255,255,255,0.035) 0%, rgba(8,8,10,0.88) 100%)",
+              border: `1px solid ${hovEdu ? "rgba(163,230,53,0.45)" : "rgba(255,255,255,0.09)"}`,
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              boxShadow: hovEdu
+                ? "0 22px 50px -10px rgba(0,0,0,0.9), 0 0 35px -5px rgba(163,230,53,0.22), inset 0 1px 1px rgba(255,255,255,0.2)"
+                : "0 6px 24px -4px rgba(0,0,0,0.55), inset 0 1px 1px rgba(255,255,255,0.04)",
+              transform: hovEdu ? "translateY(-4px)" : "translateY(0)",
+              transition: "all 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+              display: "flex",
+              flexDirection: "column",
+              gap: "18px",
+            }}
+          >
+            {/* Ambient Top Glow Line on hover */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: "8%",
+                right: "8%",
+                height: 2,
+                background: "linear-gradient(90deg, transparent, #a3e635, transparent)",
+                opacity: hovEdu ? 1 : 0,
+                transition: "opacity 0.3s ease",
+                boxShadow: "0 0 16px #a3e635",
+              }}
+            />
 
-              {/* Icon */}
-              <div style={{
-                width: "clamp(48px,9vw,60px)", height: "clamp(48px,9vw,60px)",
-                borderRadius: "16px", flexShrink: 0,
-                background: hovEdu
-                  ? "linear-gradient(145deg, rgba(163,230,53,0.15) 0%, rgba(163,230,53,0.04) 100%)"
-                  : "linear-gradient(145deg, rgba(163,230,53,0.06) 0%, rgba(163,230,53,0.02) 100%)",
-                border: `1px solid rgba(163,230,53,${hovEdu ? "0.25" : "0.08"})`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: "clamp(20px,4.5vw,26px)",
-                transition: "all 0.5s cubic-bezier(0.22,1,0.36,1)",
-                transform: hovEdu ? "scale(1.06) rotate(-2deg)" : "scale(1)",
-                boxShadow: hovEdu ? "0 0 24px rgba(163,230,53,0.1)" : "none",
-              }}>🎓</div>
+            {/* Top Row: Status Beacon Pill & Date Pill */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "10px" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "7px",
+                  padding: "4px 13px",
+                  borderRadius: "100px",
+                  background: "linear-gradient(135deg, rgba(163,230,53,0.14) 0%, rgba(163,230,53,0.03) 100%)",
+                  border: "1px solid rgba(163,230,53,0.35)",
+                  boxShadow: "0 0 14px rgba(163,230,53,0.1)",
+                }}
+              >
+                <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#a3e635", boxShadow: "0 0 8px #a3e635" }} />
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", color: "#a3e635", fontSize: "10.5px", letterSpacing: "1.5px", fontWeight: 800 }}>
+                  PURSUING DEGREE
+                </span>
+              </div>
 
-              {/* Content */}
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "4px 13px",
+                  borderRadius: "100px",
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.015) 100%)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  color: "#cbd5e1",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+                }}
+              >
+                <HiOutlineCalendar size={13} color="#a3e635" />
+                <span>2023 – 2027</span>
+              </div>
+            </div>
+
+            {/* Main Info Row: Academic Cap Logo Housing + Degree & University */}
+            <div style={{ display: "flex", alignItems: "center", gap: "clamp(16px, 3.5vw, 22px)" }}>
+              <div
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  borderRadius: "18px",
+                  flexShrink: 0,
+                  background: hovEdu
+                    ? "radial-gradient(circle at 50% 50%, rgba(163,230,53,0.22) 0%, rgba(255,255,255,0.04) 100%)"
+                    : "rgba(255,255,255,0.03)",
+                  border: `1px solid ${hovEdu ? "rgba(163,230,53,0.55)" : "rgba(255,255,255,0.1)"}`,
+                  boxShadow: hovEdu
+                    ? "0 0 24px rgba(163,230,53,0.35), inset 0 1px 2px rgba(255,255,255,0.25)"
+                    : "0 4px 14px rgba(0,0,0,0.35)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transform: hovEdu ? "scale(1.08)" : "scale(1)",
+                  transition: "all 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+                }}
+              >
+                <HiAcademicCap
+                  size={32}
+                  color="#a3e635"
+                  style={{
+                    filter: hovEdu ? "drop-shadow(0 0 12px #a3e635)" : "drop-shadow(0 0 3px rgba(163,230,53,0.5))",
+                    transition: "filter 0.3s ease",
+                  }}
+                />
+              </div>
+
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{
-                  fontFamily: "'Arial Black', sans-serif",
-                  color: hovEdu ? "#fff" : "#d4d4d4",
-                  fontSize: "clamp(14px,3.5vw,17px)",
-                  fontWeight: 900, letterSpacing: "-0.3px",
-                  marginBottom: "10px",
-                  transition: "color 0.3s",
-                }}>Graphic Era Hill University</div>
-                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px", rowGap: "6px" }}>
-                  <span style={{
-                    background: `rgba(163,230,53,${hovEdu ? "0.14" : "0.07"})`,
-                    border: `1px solid rgba(163,230,53,${hovEdu ? "0.35" : "0.15"})`,
-                    color: "#a3e635", fontSize: "10px", fontWeight: 800,
-                    padding: "4px 12px", borderRadius: "100px",
-                    transition: "all 0.3s", letterSpacing: "0.5px",
-                  }}>B.Tech — CSE</span>
-                  <span style={{
-                    color: hovEdu ? "#888" : "#555",
-                    fontSize: "12px", fontFamily: "'Courier New', monospace",
-                    transition: "color 0.3s",
-                  }}>2023 – 2027</span>
-                  <span style={{
-                    color: hovEdu ? "#888" : "#555", fontSize: "12px",
-                    transition: "color 0.3s",
-                  }}>· Dehradun</span>
+                <h3
+                  style={{
+                    margin: "0 0 5px",
+                    fontFamily: "'Arial Black', sans-serif",
+                    fontSize: "clamp(1.05rem, 2.3vw, 1.3rem)",
+                    fontWeight: 900,
+                    color: "#ffffff",
+                    letterSpacing: "-0.3px",
+                    lineHeight: 1.25,
+                  }}
+                >
+                  B.Tech — Computer Science & Engineering
+                </h3>
+
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+                  <span
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: "13px",
+                      color: hovEdu ? "#c6f567" : "#a3e635",
+                      fontWeight: 700,
+                      transition: "color 0.25s",
+                    }}
+                  >
+                    Graphic Era Hill University
+                  </span>
+                  <span style={{ color: "rgba(255,255,255,0.2)" }}>•</span>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "4px",
+                      color: "#94a3b8",
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: "11px",
+                    }}
+                  >
+                    <HiOutlineLocationMarker size={12} color="#a3e635" />
+                    Dehradun, India
+                  </span>
                 </div>
               </div>
-
-              {/* Right: Year badge */}
-              <div style={{
-                flexShrink: 0,
-                display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
-              }}>
-              </div>
             </div>
           </div>
-          <style>{`
-            @keyframes eduScan { from { top: -2px; } to { top: 102%; } }
-          `}</style>
         </motion.div>
 
-        {/* Pills */}
-        <motion.div {...fadeUp(0.2)} style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-          {[{ icon: "🤖", text: "AI ENGINEERING" }, { icon: "⚡", text: "MERN STACK" }].map(({ icon, text }) => (
-            <div key={text} style={{ display: "flex", alignItems: "center", gap: "8px", padding: "9px 16px", borderRadius: "100px", background: "#0d0d0d", border: "1px solid #222", color: "#cccccc", fontSize: "clamp(11px,3vw,13px)", fontWeight: 600 }}>
-              <span style={{ fontSize: "14px" }}>{icon}</span>{text}
-            </div>
+        {/* Domain Pills - Ultra Premium Frosted Capsules without emoji icons */}
+        <motion.div {...fadeUp(0.2)} style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
+          {[
+            { text: "AI ENGINEERING", color: "#a3e635" },
+            { text: "FULL-STACK", color: "#61DAFB" },
+          ].map(({ text, color }) => (
+            <motion.div
+              key={text}
+              whileHover={{ y: -3, scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "9px 20px",
+                borderRadius: "100px",
+                background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.015) 100%)",
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.35), inset 0 1px 1px rgba(255,255,255,0.12)",
+                color: "#f1f5f9",
+                fontSize: "11.5px",
+                fontWeight: 700,
+                letterSpacing: "1px",
+                fontFamily: "'JetBrains Mono', monospace",
+                cursor: "default",
+              }}
+            >
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: color, boxShadow: `0 0 8px ${color}` }} />
+              <span>{text}</span>
+            </motion.div>
           ))}
         </motion.div>
 
@@ -163,26 +274,67 @@ const About = () => {
           <a href="https://drive.google.com/file/d/1n6HCk39KNJGOCp43fli80Nyql4ANmTe3/view?usp=sharing"
             target="_blank" rel="noopener noreferrer"
             onMouseEnter={() => setHovBtn(true)} onMouseLeave={() => setHovBtn(false)}
-            style={{ position: "relative", overflow: "hidden", display: "inline-flex", alignItems: "center", gap: "8px", border: "1.5px solid #a3e635", borderRadius: "100px", padding: "11px 24px", fontSize: "11px", fontWeight: 800, letterSpacing: "2px", cursor: "pointer", textDecoration: "none", color: hovBtn ? "#000" : "#a3e635", transition: "color 0.3s", textTransform: "uppercase" }}>
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              border: "1.5px solid #a3e635",
+              borderRadius: "100px",
+              padding: "11px 24px",
+              fontSize: "11px",
+              fontWeight: 800,
+              letterSpacing: "2px",
+              cursor: "pointer",
+              textDecoration: "none",
+              color: hovBtn ? "#000" : "#a3e635",
+              transition: "color 0.3s",
+              textTransform: "uppercase",
+              whiteSpace: "nowrap",
+            }}>
             <span style={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: hovBtn ? "100%" : "0%", background: "#a3e635", transition: "height 0.3s cubic-bezier(0.4,0,0.2,1)", zIndex: 0 }} />
             <FaDownload size={11} style={{ position: "relative", zIndex: 1 }} />
-            <span style={{ position: "relative", zIndex: 1 }}>Resume</span>
+            <span style={{ position: "relative", zIndex: 1, whiteSpace: "nowrap" }}>Resume</span>
           </a>
           <div style={{ width: 1, height: 26, background: "#1e1e1e" }} />
           <div style={{ display: "flex", gap: "8px" }}>
-            {socials.map(({ href, icon }, i) => {
-              const [h, setH] = useState(false);
-              return (
-                <a key={i} href={href} target="_blank" rel="noopener noreferrer"
-                  onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}
-                  style={{ width: 36, height: 36, borderRadius: "10px", border: `1px solid ${h ? "#a3e635" : "#222"}`, background: h ? "rgba(163,230,53,0.08)" : "transparent", color: h ? "#a3e635" : "#666", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", transform: h ? "translateY(-3px)" : "translateY(0)", transition: "all 0.22s" }}
-                >{icon}</a>
-              );
-            })}
+            {socials.map(({ href, icon }, i) => (
+              <SocialLink key={i} href={href} icon={icon} />
+            ))}
           </div>
         </motion.div>
       </div>
     </section>
+  );
+};
+
+const SocialLink = ({ href, icon }) => {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        width: 36,
+        height: 36,
+        borderRadius: "10px",
+        border: `1px solid ${h ? "#a3e635" : "#222"}`,
+        background: h ? "rgba(163,230,53,0.08)" : "transparent",
+        color: h ? "#a3e635" : "#666",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textDecoration: "none",
+        transform: h ? "translateY(-3px)" : "translateY(0)",
+        transition: "all 0.22s",
+      }}
+    >
+      {icon}
+    </a>
   );
 };
 

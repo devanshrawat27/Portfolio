@@ -5,21 +5,28 @@ const Cursor = () => {
   // Mouse position track karne ke liye state
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  // Smoothness ke liye useSpring use karenge (Isse 'parallel' wala smooth feel aayega)
   const springConfig = { damping: 25, stiffness: 150 };
   const cursorX = useSpring(0, springConfig);
   const cursorY = useSpring(0, springConfig);
+  const [isDesktop, setIsDesktop] = useState(typeof window !== "undefined" && window.innerWidth >= 768);
 
   useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    window.addEventListener("resize", handleResize);
+
     const handleMouseMove = (e) => {
-      // Dot ko cursor ke center mein lane ke liye coordinates update
       cursorX.set(e.clientX - 6);
       cursorY.set(e.clientY - 6);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
+    };
   }, [cursorX, cursorY]);
+
+  if (!isDesktop) return null;
 
   return (
     <motion.div

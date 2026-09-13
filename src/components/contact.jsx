@@ -56,17 +56,28 @@ const Contact = () => {
         {/* LEFT — Image */}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <div style={{ position: "relative", width: "100%", maxWidth: "380px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 32px 80px rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <img src="/pass.jpg" alt="Devansh Rawat"
+            <img src="/pass.png" alt="Devansh Rawat"
               style={{ width: "100%", height: "clamp(320px,60vw,480px)", objectFit: "cover", objectPosition: "center top", display: "block" }}
               onError={e => { e.target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=380&h=480&fit=crop&crop=top"; }}
             />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)", pointerEvents: "none" }} />
-            <div style={{ position: "absolute", top: 16, left: 16, background: "rgba(0,0,0,0.8)", border: "1px solid rgba(163,230,53,0.3)", borderRadius: "999px", padding: "6px 13px", display: "flex", alignItems: "center", gap: "7px", backdropFilter: "blur(10px)", animation: "float-badge 3s ease-in-out infinite" }}>
-              <div style={{ position: "relative", width: 8, height: 8 }}>
-                <div style={{ position: "absolute", inset: 0, borderRadius: "50%", backgroundColor: "#a3e635", boxShadow: "0 0 6px #a3e635" }} />
+            <div style={{
+              position: "absolute", top: 16, left: 16,
+              background: "linear-gradient(135deg, rgba(163,230,53,0.16) 0%, rgba(0,0,0,0.85) 100%)",
+              border: "1px solid rgba(163,230,53,0.4)",
+              borderRadius: "100px",
+              padding: "6px 14px",
+              display: "flex", alignItems: "center", gap: "8px",
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
+              boxShadow: "0 0 20px rgba(163,230,53,0.2), inset 0 1px 1px rgba(255,255,255,0.25)",
+              animation: "float-badge 3s ease-in-out infinite",
+            }}>
+              <div style={{ position: "relative", width: 8, height: 8, flexShrink: 0 }}>
+                <div style={{ position: "absolute", inset: 0, borderRadius: "50%", backgroundColor: "#a3e635", boxShadow: "0 0 8px #a3e635" }} />
                 <div style={{ position: "absolute", inset: "-3px", borderRadius: "50%", border: "1px solid #a3e635", animation: "pulse-ring 1.6s ease-out infinite" }} />
               </div>
-              <span style={{ color: "#a3e635", fontSize: "10px", fontWeight: 800, letterSpacing: "1px" }}>Open to work</span>
+              <span style={{ color: "#c6f567", fontSize: "10.5px", fontWeight: 800, letterSpacing: "1px", fontFamily: "'JetBrains Mono', monospace" }}>Open to work</span>
             </div>
             <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 22px" }}>
               <div style={{ fontFamily: "'Courier New', monospace", color: "#a3e635", fontSize: "9px", letterSpacing: "3px", marginBottom: "4px" }}></div>
@@ -77,9 +88,22 @@ const Contact = () => {
 
         {/* RIGHT — Form */}
         <div style={{ display: "flex", flexDirection: "column", gap: "clamp(16px,3vw,28px)" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <div style={{ width: 28, height: 1.5, background: "#a3e635" }} />
-            <span style={{ fontFamily: "'Courier New', monospace", color: "#a3e635", fontSize: "10px", fontWeight: 800, letterSpacing: "4px" }}>GET IN TOUCH</span>
+          <div style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            marginBottom: "6px",
+            padding: "5px 14px",
+            borderRadius: "100px",
+            background: "linear-gradient(135deg, rgba(163,230,53,0.1) 0%, rgba(163,230,53,0.02) 100%)",
+            border: "1px solid rgba(163,230,53,0.28)",
+            boxShadow: "0 0 16px rgba(163,230,53,0.08)",
+            alignSelf: "flex-start",
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#a3e635", boxShadow: "0 0 8px #a3e635" }} />
+            <span style={{ fontFamily: "'JetBrains Mono', 'Courier New', monospace", color: "#a3e635", fontSize: "11px", fontWeight: 800, letterSpacing: "3px" }}>
+              GET_IN_TOUCH
+            </span>
           </div>
 
           <h2 style={{ fontFamily: "'Arial Black', sans-serif", fontSize: "clamp(2rem,7vw,3.8rem)", fontWeight: 900, lineHeight: 0.88, margin: 0, letterSpacing: "-2px", textTransform: "uppercase" }}>
@@ -87,11 +111,11 @@ const Contact = () => {
             <span style={{ color: "#a3e635" }}>TOGETHER</span>
           </h2>
 
-          <p style={{ color: "#666", fontSize: "clamp(13px,3vw,14px)", lineHeight: 1.75, margin: 0 }}>Have a project in mind? Let's build something impactful together.</p>
+          <p style={{ color: "#94a3b8", fontSize: "clamp(13px,3vw,14.5px)", lineHeight: 1.75, margin: 0 }}>Have a project in mind? Let's build something impactful together.</p>
 
           <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
             {/* On mobile: stack name+email */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "12px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "12px" }}>
               <Field label="Name"><input type="text" placeholder="John Smith" value={name} onChange={e => setName(e.target.value)} style={inputBase} onFocus={applyFocus} onBlur={removeFocus} /></Field>
               <Field label="Email"><input type="email" placeholder="john@gmail.com" value={email} onChange={e => setEmail(e.target.value)} style={inputBase} onFocus={applyFocus} onBlur={removeFocus} /></Field>
             </div>
@@ -116,10 +140,27 @@ const Contact = () => {
             <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
               <button type="submit" disabled={sending}
                 onMouseEnter={() => setHovBtn(true)} onMouseLeave={() => setHovBtn(false)}
-                style={{ padding: "13px clamp(28px,6vw,48px)", borderRadius: "999px", border: "2px solid #a3e635", backgroundColor: hovBtn && !sending ? "#a3e635" : "transparent", color: hovBtn && !sending ? "#000" : "#a3e635", fontSize: "12px", fontWeight: 800, letterSpacing: "2px", textTransform: "uppercase", fontFamily: "'Arial Black', sans-serif", cursor: sending ? "not-allowed" : "pointer", opacity: sending ? 0.5 : 1, transition: "all 0.25s", boxShadow: hovBtn && !sending ? "0 0 30px rgba(163,230,53,0.3)" : "none" }}>
+                style={{
+                  padding: "13px clamp(28px,6vw,48px)",
+                  borderRadius: "999px",
+                  border: "2px solid #a3e635",
+                  backgroundColor: hovBtn && !sending ? "#a3e635" : "transparent",
+                  color: hovBtn && !sending ? "#000" : "#a3e635",
+                  fontSize: "12px",
+                  fontWeight: 800,
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
+                  fontFamily: "'Arial Black', sans-serif",
+                  cursor: sending ? "not-allowed" : "pointer",
+                  opacity: sending ? 0.5 : 1,
+                  transition: "all 0.25s",
+                  boxShadow: hovBtn && !sending ? "0 0 30px rgba(163,230,53,0.3)" : "none",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
+                }}>
                 {sending ? "Sending..." : "Submit"}
               </button>
-              <span style={{ color: "#444", fontSize: "12px" }}>Usually reply within 24hrs</span>
+              <span style={{ color: "#94a3b8", fontSize: "12px", fontFamily: "'JetBrains Mono', monospace", whiteSpace: "nowrap" }}>Usually reply within 24hrs</span>
             </div>
           </form>
         </div>
