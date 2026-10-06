@@ -42,9 +42,8 @@ const CursorGlow = () => {
         translateX: "-50%",
         translateY: "-50%",
         background:
-          "radial-gradient(circle, rgba(163, 230, 53, 0.08) 0%, rgba(163, 230, 53, 0.03) 35%, transparent 70%)",
-        filter: "blur(30px)",
-        willChange: "transform",
+          "radial-gradient(circle, rgba(163, 230, 53, 0.08) 0%, rgba(163, 230, 53, 0.03) 40%, rgba(163, 230, 53, 0.008) 60%, transparent 75%)",
+        transform: "translateZ(0)",
       }}
     />
   );

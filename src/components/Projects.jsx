@@ -1,583 +1,1160 @@
-import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { FaGithub } from "react-icons/fa";
-import { HiOutlineExternalLink } from "react-icons/hi";
-
+import React, { useRef, useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FaGithub,
+  FaCode,
+  FaTerminal,
+  FaBrain,
+  FaMicrochip,
+  FaCogs,
+  FaChevronLeft,
+  FaChevronRight,
+} from "react-icons/fa";
+import {
+  SiReact,
+  SiNodedotjs,
+  SiExpress,
+  SiFirebase,
+  SiSocketdotio,
+  SiGooglegemini,
+  SiPython,
+  SiPytorch,
+  SiMongodb,
+  SiWebrtc,
+  SiBootstrap,
+  SiFlask,
+  SiScikitlearn,
+  SiPandas,
+  SiNumpy,
+  SiChartdotjs,
+  SiSupabase,
+  SiPostgresql,
+  SiTailwindcss,
+  SiOpenai,
+  SiHuggingface,
+  SiJavascript,
+} from "react-icons/si";
 import { PROJECTS } from "../data/projectsData";
 
-function hexToRgb(hex) {
-  const h = hex.replace("#", "");
-  return `${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)}`;
-}
+// ═══════════════════════════════════════════════════════
+// DESIGN TOKENS & REAL TECH ICONS MAPPING
+// ═══════════════════════════════════════════════════════
+const LIME = "#a3e635";
 
-// ── MOBILE PROJECT CARD ────────────────────────────────────────────────────
-const MobileProjectCard = ({ project }) => {
-  const [hov, setHov] = useState(false);
-  const rgb = hexToRgb(project.accent);
+const TECH_ICONS_MAP = {
+  "React.js": { icon: SiReact, color: "#61DAFB" },
+  "React": { icon: SiReact, color: "#61DAFB" },
+  "Node.js": { icon: SiNodedotjs, color: "#5FA04E" },
+  "Express.js": { icon: SiExpress, color: "#f8fafc" },
+  "Firebase": { icon: SiFirebase, color: "#FFCA28" },
+  "Socket.io": { icon: SiSocketdotio, color: "#f8fafc" },
+  "Gemini API": { icon: SiGooglegemini, color: "#A78BFA" },
+  "Python": { icon: SiPython, color: "#38BDF8" },
+  "Compilers": { icon: FaCode, color: LIME },
+  "AST Parsing": { icon: FaCogs, color: LIME },
+  "Lexical Analysis": { icon: FaTerminal, color: LIME },
+  "Code Gen": { icon: FaCode, color: LIME },
+  "PyTorch": { icon: SiPytorch, color: "#EE4C2C" },
+  "CycleGAN": { icon: FaBrain, color: LIME },
+  "Deep Learning": { icon: FaBrain, color: LIME },
+  "Gradio": { icon: SiPython, color: "#FB923C" },
+  "HuggingFace": { icon: SiHuggingface, color: "#FBBF24" },
+  "MongoDB": { icon: SiMongodb, color: "#4ADE80" },
+  "WebRTC": { icon: SiWebrtc, color: "#38BDF8" },
+  "EJS": { icon: SiJavascript, color: "#FACC15" },
+  "Bootstrap": { icon: SiBootstrap, color: "#C084FC" },
+  "Flask": { icon: SiFlask, color: "#f8fafc" },
+  "Scikit-learn": { icon: SiScikitlearn, color: "#FB923C" },
+  "Pandas": { icon: SiPandas, color: "#F43F5E" },
+  "NumPy": { icon: SiNumpy, color: "#38BDF8" },
+  "Chart.js": { icon: SiChartdotjs, color: "#F43F5E" },
+  "Supabase": { icon: SiSupabase, color: "#34D399" },
+  "PostgreSQL": { icon: SiPostgresql, color: "#60A5FA" },
+  "Tailwind CSS": { icon: SiTailwindcss, color: "#38BDF8" },
+  "OpenAI API": { icon: SiOpenai, color: "#34D399" },
+  "LLMs": { icon: FaBrain, color: LIME },
+  "Multithreading": { icon: FaMicrochip, color: LIME },
+};
 
+const renderTechBadge = (t, isSmall = false) => {
+  const item = TECH_ICONS_MAP[t] || { icon: FaCode, color: LIME };
+  const IconComp = item.icon;
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
-      onTouchStart={() => setHov(true)}
-      onTouchEnd={() => setTimeout(() => setHov(false), 300)}
+    <span
+      key={t}
       style={{
-        borderRadius: "18px",
-        overflow: "hidden",
-        marginBottom: "16px",
-        backgroundColor: "#08080a",
-        background: hov
-          ? "linear-gradient(145deg, #141419 0%, #08080a 100%)"
-          : "linear-gradient(145deg, #0e0e12 0%, #050507 100%)",
-        border: `1px solid ${hov ? project.accent + "66" : "rgba(255,255,255,0.08)"}`,
-        boxShadow: hov
-          ? `0 16px 40px -10px rgba(0,0,0,0.95), 0 0 30px -5px rgba(${rgb},0.25)`
-          : "0 8px 30px rgba(0,0,0,0.85)",
-        transition: "all 0.3s ease",
-        position: "relative",
-        maxWidth: "100%",
-        boxSizing: "border-box",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: isSmall ? "5px" : "7px",
+        padding: isSmall ? "3px 9px" : "5px 12px",
+        borderRadius: "100px",
+        border: "1px solid rgba(255,255,255,0.09)",
+        background: "rgba(255,255,255,0.03)",
+        backdropFilter: "blur(6px)",
+        color: "#e2e8f0",
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: isSmall ? "8.5px" : "10px",
+        fontWeight: 600,
+        letterSpacing: "0.3px",
+        transition: "all 0.25s ease",
+        whiteSpace: "nowrap",
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.borderColor = "rgba(163,230,53,0.45)";
+        e.currentTarget.style.background = "rgba(163,230,53,0.08)";
+        e.currentTarget.style.transform = "translateY(-1.5px)";
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
+        e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+        e.currentTarget.style.transform = "translateY(0)";
       }}
     >
-      {/* Top accent light beam */}
-      <div style={{
-        position: "absolute", top: 0, left: 0, right: 0, height: "2px",
-        background: `linear-gradient(90deg, transparent, ${project.accent}, transparent)`,
-        opacity: hov ? 1 : 0.6,
-        boxShadow: `0 0 10px ${project.accent}`,
-        zIndex: 10,
-      }} />
-
-      {/* Image */}
-      <div style={{ position: "relative", height: "clamp(160px, 45vw, 210px)", overflow: "hidden" }}>
-        <img
-          src={project.image}
-          alt={project.name}
-          style={{
-            width: "100%", height: "100%", objectFit: "cover", display: "block",
-            transform: hov ? "scale(1.05)" : "scale(1)", transition: "transform 0.5s ease",
-          }}
-          onError={e => { e.target.style.display = "none"; }}
-        />
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(8,8,10,0.95) 0%, transparent 60%)`, pointerEvents: "none" }} />
-
-        {/* Tag chip */}
-        <div style={{
-          position: "absolute", top: 10, left: 10,
-          display: "inline-flex", alignItems: "center", gap: "5px",
-          backgroundColor: "rgba(0,0,0,0.8)", border: `1px solid ${project.accent}66`,
-          color: project.accent, fontSize: "8.5px", fontWeight: 800, padding: "3px 10px",
-          borderRadius: "100px", letterSpacing: "1px", textTransform: "uppercase",
-          boxShadow: `0 4px 16px rgba(0,0,0,0.6)`,
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
-          <span style={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: project.accent, boxShadow: `0 0 6px ${project.accent}` }} />
-          {project.tag}
-        </div>
-
-        {/* Year */}
-        <div style={{
-          position: "absolute", top: 10, right: 10,
-          display: "inline-flex", alignItems: "center", gap: "5px",
-          padding: "3px 10px", borderRadius: "100px",
-          background: "rgba(0,0,0,0.75)", backdropFilter: "blur(10px)",
-          border: "1px solid rgba(255,255,255,0.12)",
-          color: "#e2e8f0", fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "9px", letterSpacing: "1px", fontWeight: 700,
-        }}>
-          {project.year}
-        </div>
-
-        {/* Github round button */}
-        <a href={project.github} target="_blank" rel="noopener noreferrer"
-          style={{
-            position: "absolute", bottom: 10, right: 10, width: 38, height: 38,
-            borderRadius: "50%", backgroundColor: project.accent, color: "#000",
-            fontSize: "16px", fontWeight: 900, display: "flex", alignItems: "center",
-            justifyContent: "center", textDecoration: "none",
-            boxShadow: `0 4px 20px rgba(${rgb},0.55)`,
-          }}>↗</a>
-      </div>
-
-      {/* Content */}
-      <div style={{ padding: "16px" }}>
-        {/* Header */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
-          <span style={{
-            display: "inline-flex", alignItems: "center", gap: "5px",
-            padding: "2px 8px", borderRadius: "100px",
-            background: `rgba(${rgb},0.12)`, border: `1px solid ${project.accent}44`,
-            color: project.accent, fontSize: "8.5px", fontWeight: 800, letterSpacing: "1.5px",
-            fontFamily: "'JetBrains Mono', monospace",
-          }}>
-            PROJECT // {project.num}
-          </span>
-        </div>
-
-        <h3 style={{
-          fontSize: "clamp(1.15rem, 5vw, 1.5rem)", fontWeight: 900,
-          fontFamily: "'Syne', 'Arial Black', sans-serif", color: "#fff",
-          margin: "0 0 3px", letterSpacing: "-0.5px", lineHeight: 1.15,
-          wordBreak: "break-word",
-        }}>{project.name}</h3>
-
-        <p style={{ color: project.accent, fontSize: "10.5px", fontWeight: 700, margin: "0 0 10px", letterSpacing: "0.3px", wordBreak: "break-word" }}>
-          {project.subtitle}
-        </p>
-
-        <p style={{ fontSize: "11.5px", color: "#94a3b8", lineHeight: "1.7", margin: "0 0 14px", wordBreak: "break-word" }}>
-          {project.description}
-        </p>
-
-        {/* Highlights */}
-        <div style={{ marginBottom: "14px" }}>
-          {project.highlights.slice(0, 3).map((h, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "7px", marginBottom: "5px" }}>
-              <span style={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: project.accent, boxShadow: `0 0 6px ${project.accent}`, marginTop: 6, flexShrink: 0 }} />
-              <span style={{ color: "#cbd5e1", fontSize: "11px", lineHeight: 1.5, wordBreak: "break-word" }}>{h}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Tech chips */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "5px", marginBottom: "14px" }}>
-          {project.tech.map(t => (
-            <span key={t} style={{
-              backgroundColor: `rgba(${rgb},0.12)`,
-              border: `1px solid ${project.accent}35`,
-              color: project.accent,
-              fontSize: "8.5px",
-              fontWeight: 700,
-              padding: "3px 8px",
-              borderRadius: "100px",
-              letterSpacing: "0.3px",
-              fontFamily: "'JetBrains Mono', monospace",
-            }}>{t}</span>
-          ))}
-        </div>
-
-        {/* GitHub link */}
-        <a href={project.github} target="_blank" rel="noopener noreferrer"
-          style={{
-            display: "inline-flex", alignItems: "center", gap: "8px",
-            color: "#ffffff", border: "1px solid rgba(255,255,255,0.12)",
-            background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
-            padding: "8px 16px", borderRadius: "100px", fontSize: "10px", fontWeight: 700,
-            textDecoration: "none", letterSpacing: "1px", textTransform: "uppercase",
-            fontFamily: "'JetBrains Mono', monospace", width: "100%", justifyContent: "center",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
-            boxSizing: "border-box",
-          }}>
-          <FaGithub size={12} />
-          <span>View on GitHub</span>
-          <span style={{ fontSize: "12px" }}>↗</span>
-        </a>
-      </div>
-    </motion.div>
+      <IconComp style={{ color: item.color, fontSize: isSmall ? "10px" : "13px", flexShrink: 0 }} />
+      <span>{t}</span>
+    </span>
   );
 };
 
-// ── DESKTOP PROJECT CARD ───────────────────────────────────────────────────
-const DesktopProjectCard = ({ project, index, total, containerProgress }) => {
-  const [hov, setHov] = useState(false);
-  const rgb = hexToRgb(project.accent);
-  const cardRef = useRef(null);
-  const stickyTop = 80;
-  const segStart = index / total;
-  const segEnd = (index + 1) / total;
-  const rawScale = useTransform(containerProgress, [segStart, segEnd], [1, 0.95]);
-  const scale = useSpring(rawScale, { stiffness: 120, damping: 26 });
+// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// CINEMATIC PROJECT SLIDE — Slidable & Interactive
+// ═══════════════════════════════════════════════════════
+const CinematicSlide = ({ project, direction, goNext, goPrev }) => {
+  const [imgHov, setImgHov] = useState(false);
+  const [btnHov1, setBtnHov1] = useState(false);
+  const [btnHov2, setBtnHov2] = useState(false);
+  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0, shiftX: 0, shiftY: 0 });
+
+  // Cinematic depth transition: current scales/blurs backward, next scales forward into focus
+  const slideVariants = {
+    enter: (dir) => ({
+      opacity: 0,
+      scale: 0.92,
+      filter: "blur(14px)",
+      x: dir > 0 ? 50 : -50,
+    }),
+    center: {
+      opacity: 1,
+      scale: 1,
+      filter: "blur(0px)",
+      x: 0,
+      transition: {
+        duration: 0.65,
+        ease: [0.16, 1, 0.3, 1],
+      },
+    },
+    exit: (dir) => ({
+      opacity: 0,
+      scale: 0.88,
+      filter: "blur(16px)",
+      x: dir > 0 ? -50 : 50,
+      transition: {
+        duration: 0.55,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    }),
+  };
+
+  const handleMouseMove = useCallback((e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setTilt({
+      rotateX: -y * 8, // subtle max 4deg vertical tilt
+      rotateY: x * 10,  // subtle max 5deg horizontal tilt
+      shiftX: x * 16,  // gentle translation
+      shiftY: y * 12,
+    });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setImgHov(false);
+    setTilt({ rotateX: 0, rotateY: 0, shiftX: 0, shiftY: 0 });
+  }, []);
+
+  const handleMouseEnter = useCallback(() => {
+    setImgHov(true);
+  }, []);
 
   return (
-    <motion.div ref={cardRef} style={{ scale, position: "sticky", top: stickyTop + index * 10, zIndex: index + 1, marginBottom: "24px" }}>
-      <div
-        onMouseEnter={() => setHov(true)}
-        onMouseLeave={() => setHov(false)}
-        style={{
-          position: "relative",
-          borderRadius: "24px",
-          overflow: "hidden",
-          minHeight: "480px",
-          display: "grid",
-          gridTemplateColumns: "1.08fr 1fr",
-          backgroundColor: "#060608",
-          background: hov
-            ? "linear-gradient(145deg, #131318 0%, #070709 100%)"
-            : "linear-gradient(145deg, #0e0e12 0%, #050507 100%)",
-          border: `1px solid ${hov ? project.accent + "77" : "rgba(255,255,255,0.09)"}`,
-          boxShadow: hov
-            ? `0 30px 80px -10px rgba(0,0,0,0.95), 0 0 45px -5px rgba(${rgb},0.28), inset 0 1px 1px rgba(255,255,255,0.22)`
-            : "0 20px 60px -10px rgba(0,0,0,0.9), inset 0 1px 1px rgba(255,255,255,0.04)",
-          transition: "border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease",
-        }}
-      >
-        {/* Top ambient lighting beam */}
+    <motion.div
+      key={project.id}
+      custom={direction}
+      variants={slideVariants}
+      initial="enter"
+      animate="center"
+      exit="exit"
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.2}
+      onDragEnd={(_, info) => {
+        const threshold = 50;
+        if (info.offset.x < -threshold || info.velocity.x < -300) {
+          goNext();
+        } else if (info.offset.x > threshold || info.velocity.x > 300) {
+          goPrev();
+        }
+      }}
+      style={{
+        position: "absolute",
+        inset: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "0 clamp(20px, 5vw, 80px)",
+        cursor: "grab",
+        userSelect: "none",
+        boxSizing: "border-box",
+      }}
+      whileTap={{ cursor: "grabbing" }}
+    >
+      <div style={{
+        width: "100%",
+        maxWidth: "1180px",
+        margin: "0 auto",
+        display: "grid",
+        gridTemplateColumns: "1fr 1.15fr",
+        gap: "clamp(24px, 3.2vw, 44px)",
+        alignItems: "center",
+      }}>
+        {/* ── LEFT: Content ── */}
         <div style={{
-          position: "absolute", top: 0, left: 0, right: 0, height: "2px",
-          background: `linear-gradient(90deg, transparent 0%, ${project.accent} 50%, transparent 100%)`,
-          opacity: hov ? 1 : 0.45,
-          boxShadow: hov ? `0 0 18px ${project.accent}` : `0 0 8px ${project.accent}66`,
-          transition: "all 0.35s ease",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
           zIndex: 10,
-        }} />
-
-        {/* Left Image Panel */}
-        <div style={{ position: "relative", overflow: "hidden", background: "#050505" }}>
-          {/* Watermark Number */}
-          <div style={{
-            position: "absolute", bottom: "-20px", right: "-10px", fontSize: "160px",
-            fontWeight: 900, fontFamily: "'Arial Black', sans-serif", color: project.accent,
-            opacity: hov ? 0.08 : 0.03, lineHeight: 1, pointerEvents: "none", userSelect: "none",
-            transition: "opacity 0.4s", zIndex: 1,
-          }}>{project.num}</div>
-
-          <img
-            src={project.image}
-            alt={project.name}
+          paddingLeft: 0,
+        }}>
+          {/* Title */}
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
             style={{
-              width: "100%", height: "100%", objectFit: "cover", display: "block", minHeight: "480px",
-              transform: hov ? "scale(1.06)" : "scale(1)", transition: "transform 0.7s cubic-bezier(0.22, 1, 0.36, 1)",
-              position: "relative", zIndex: 2,
-            }}
-            onError={e => { e.target.style.display = "none"; }}
-          />
-
-          {/* Vignette Gradients */}
-          <div style={{ position: "absolute", inset: 0, zIndex: 3, background: `linear-gradient(to right, transparent 60%, #050507 100%)`, pointerEvents: "none" }} />
-          <div style={{ position: "absolute", inset: 0, zIndex: 4, background: `linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)`, pointerEvents: "none" }} />
-
-          {/* Tag Pill */}
-          <div style={{
-            position: "absolute", top: 22, left: 22, zIndex: 5,
-            display: "inline-flex", alignItems: "center", gap: "6px",
-            backgroundColor: "rgba(0,0,0,0.8)", border: `1px solid ${project.accent}66`,
-            color: project.accent, fontSize: "10px", fontWeight: 800, padding: "5px 14px",
-            borderRadius: "100px", letterSpacing: "1px", textTransform: "uppercase",
-            boxShadow: `0 4px 20px rgba(0,0,0,0.5)`,
-            backdropFilter: "blur(12px)",
-            fontFamily: "'JetBrains Mono', monospace",
-          }}>
-            <span style={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: project.accent, boxShadow: `0 0 6px ${project.accent}` }} />
-            {project.tag}
-          </div>
-
-          {/* Year Pill */}
-          <div style={{
-            position: "absolute", bottom: 22, left: 22, zIndex: 5,
-            display: "inline-flex", alignItems: "center", gap: "6px",
-            padding: "5px 14px", borderRadius: "100px",
-            background: "rgba(0,0,0,0.75)", backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            border: "1px solid rgba(255,255,255,0.12)",
-            color: "#e2e8f0", fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "11px", letterSpacing: "1.5px", fontWeight: 700,
-            boxShadow: "0 4px 12px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.15)",
-          }}>
-            {project.year}
-          </div>
-
-          {/* Circular Hover Launch Orb */}
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              position: "absolute", bottom: 20, right: 20, zIndex: 6,
-              width: 48, height: 48, borderRadius: "50%",
-              backgroundColor: hov ? project.accent : "rgba(0,0,0,0.75)",
-              border: `1px solid ${hov ? project.accent : "rgba(255,255,255,0.18)"}`,
-              color: hov ? "#000" : "#fff",
-              fontSize: "18px", fontWeight: 900,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              textDecoration: "none",
-              boxShadow: hov ? `0 0 25px rgba(${rgb},0.6)` : "0 4px 14px rgba(0,0,0,0.5)",
-              transform: hov ? "scale(1.1)" : "scale(1)",
-              transition: "all 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+              fontFamily: "'Syne', 'Arial Black', sans-serif",
+              fontSize: "clamp(2.3rem, 3.7vw, 3.8rem)",
+              fontWeight: 900,
+              color: "#fff",
+              margin: "0 0 6px",
+              letterSpacing: "-1.5px",
+              lineHeight: 1.04,
             }}
           >
-            ↗
-          </a>
-        </div>
+            {project.name}
+          </motion.h3>
 
-        {/* Right Content Panel */}
-        <div style={{
-          padding: "clamp(32px, 3.5vw, 44px)",
-          display: "flex", flexDirection: "column",
-          justifyContent: "space-between", position: "relative",
-          backgroundColor: "#050507",
-        }}>
-          {/* Background Watermark */}
-          <div style={{
-            position: "absolute", top: "50%", right: "-30px", transform: "translateY(-50%)",
-            fontSize: "220px", fontWeight: 900, fontFamily: "'Arial Black', sans-serif",
-            color: "#fff", opacity: 0.012, lineHeight: 1, pointerEvents: "none", userSelect: "none",
-          }}>{project.num}</div>
-
-          <div>
-            {/* Project Index Micro-Pill */}
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-              <span style={{
-                display: "inline-flex", alignItems: "center", gap: "6px",
-                padding: "4px 12px", borderRadius: "100px",
-                background: `rgba(${rgb},0.12)`, border: `1px solid ${project.accent}44`,
-                color: project.accent, fontSize: "10.5px", fontWeight: 800, letterSpacing: "1.5px",
-                fontFamily: "'JetBrains Mono', monospace",
-              }}>
-                <span style={{ width: 4.5, height: 4.5, borderRadius: "50%", backgroundColor: project.accent, boxShadow: `0 0 6px ${project.accent}` }} />
-                PROJECT // {project.num}
-              </span>
-            </div>
-
-            {/* Title */}
-            <h3 style={{
-              fontSize: "clamp(1.65rem, 2.3vw, 2.3rem)",
-              fontWeight: 900,
-              fontFamily: "'Syne', 'Arial Black', sans-serif",
-              color: "#ffffff",
-              margin: "0 0 6px",
-              letterSpacing: "-0.5px",
-              lineHeight: 1.15,
-              textShadow: hov ? `0 0 35px rgba(${rgb},0.3)` : "none",
-              transition: "text-shadow 0.3s ease",
-            }}>
-              {project.name}
-            </h3>
-
-            {/* Subtitle */}
-            <p style={{
-              color: project.accent,
-              fontSize: "12px",
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.45 }}
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "10px",
               fontWeight: 700,
-              margin: "0 0 16px",
-              letterSpacing: "0.5px",
-              fontFamily: "'Inter', sans-serif",
-            }}>
-              {project.subtitle}
-            </p>
-
-            {/* Description */}
-            <p style={{
-              fontSize: "13.5px",
-              lineHeight: "1.75",
+              color: LIME,
+              letterSpacing: "2.5px",
+              textTransform: "uppercase",
               margin: "0 0 20px",
+              opacity: 0.9,
+            }}
+          >
+            {project.subtitle}
+          </motion.p>
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.45 }}
+            style={{
+              fontSize: "13.5px",
+              lineHeight: 1.7,
               color: "#94a3b8",
+              margin: "0 0 22px",
+              maxWidth: "460px",
               fontFamily: "'Inter', sans-serif",
-            }}>
-              {project.description}
-            </p>
+            }}
+          >
+            {project.description.length > 180
+              ? project.description.slice(0, 180) + "…"
+              : project.description}
+          </motion.p>
 
-            {/* Highlights */}
-            <div style={{ marginBottom: "22px" }}>
-              {project.highlights.map((h, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "6px" }}>
-                  <span style={{
-                    width: 5, height: 5, borderRadius: "50%",
-                    backgroundColor: project.accent,
-                    boxShadow: `0 0 6px ${project.accent}`,
-                    marginTop: 7, flexShrink: 0,
-                  }} />
-                  <span style={{ color: hov ? "#f1f5f9" : "#cbd5e1", fontSize: "12.5px", lineHeight: 1.55, transition: "color 0.25s ease" }}>
-                    {h}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Highlights */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.45 }}
+            style={{ marginBottom: "22px" }}
+          >
+            {project.highlights.slice(0, 4).map((h, i) => (
+              <div key={i} style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: "10px",
+                marginBottom: "7px",
+              }}>
+                <span style={{
+                  width: 4, height: 4, borderRadius: "50%",
+                  backgroundColor: LIME,
+                  boxShadow: `0 0 6px ${LIME}`,
+                  marginTop: 7, flexShrink: 0,
+                }} />
+                <span style={{
+                  color: "#cbd5e1",
+                  fontSize: "12px",
+                  lineHeight: 1.6,
+                  fontFamily: "'Inter', sans-serif",
+                }}>{h}</span>
+              </div>
+            ))}
+          </motion.div>
 
-          {/* Bottom Row: Tech chips + GitHub Action Button */}
-          <div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "7px", marginBottom: "22px" }}>
-              {project.tech.map(t => (
-                <span key={t} style={{
-                  backgroundColor: hov ? `rgba(${rgb},0.15)` : "rgba(255,255,255,0.03)",
-                  border: `1px solid ${hov ? project.accent + "55" : "rgba(255,255,255,0.08)"}`,
-                  color: hov ? "#ffffff" : project.accent,
-                  fontSize: "10px",
-                  fontWeight: 700,
-                  padding: "4px 12px",
-                  borderRadius: "100px",
-                  letterSpacing: "0.5px",
-                  fontFamily: "'JetBrains Mono', monospace",
-                  boxShadow: hov ? `0 2px 10px rgba(${rgb},0.25)` : "none",
-                  transition: "all 0.3s ease",
-                }}>{t}</span>
-              ))}
-            </div>
+          {/* Tech Stack with Real Brand Icons */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.32, duration: 0.45 }}
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "7px",
+              marginBottom: "26px",
+            }}
+          >
+            {project.tech.map(t => renderTechBadge(t))}
+          </motion.div>
 
+          {/* Actions — Smooth lime energy hover animations */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.38, duration: 0.45 }}
+            onPointerDownCapture={e => e.stopPropagation()}
+            style={{
+              display: "flex",
+              gap: "14px",
+              alignItems: "center",
+              zIndex: 20,
+            }}
+          >
+            {/* Primary CTA: View Project with lime energy aura & sweep */}
             <a
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
+              onMouseEnter={() => setBtnHov1(true)}
+              onMouseLeave={() => setBtnHov1(false)}
               style={{
+                position: "relative",
+                overflow: "hidden",
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                color: "#ffffff",
-                border: "1px solid rgba(255,255,255,0.12)",
-                background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
-                backdropFilter: "blur(12px)",
-                padding: "10px 24px",
+                padding: "12px 28px",
                 borderRadius: "100px",
-                fontSize: "11px",
-                fontWeight: 700,
-                textDecoration: "none",
-                letterSpacing: "1px",
-                textTransform: "uppercase",
+                backgroundColor: LIME,
+                color: "#000",
                 fontFamily: "'JetBrains Mono', monospace",
-                boxShadow: "0 4px 14px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.15)",
-                transition: "all 0.3s ease",
+                fontSize: "11px",
+                fontWeight: 800,
+                letterSpacing: "1px",
+                textDecoration: "none",
+                textTransform: "uppercase",
+                boxShadow: btnHov1
+                  ? "0 0 32px rgba(163,230,53,0.75), 0 0 65px rgba(163,230,53,0.35), inset 0 1px 2px rgba(255,255,255,0.6)"
+                  : "0 4px 24px rgba(163,230,53,0.3)",
+                transform: btnHov1 ? "translateY(-2px) scale(1.025)" : "translateY(0) scale(1)",
+                transition: "all 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
                 cursor: "pointer",
               }}
-              onMouseEnter={e => {
-                e.currentTarget.style.borderColor = project.accent;
-                e.currentTarget.style.color = "#000";
-                e.currentTarget.style.backgroundColor = project.accent;
-                e.currentTarget.style.boxShadow = `0 0 24px rgba(${rgb},0.5)`;
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
-                e.currentTarget.style.color = "#ffffff";
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.boxShadow = "0 4px 14px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.15)";
+            >
+              {/* Smooth energy sweep reflection */}
+              <motion.div
+                animate={btnHov1 ? { x: ["-100%", "200%"] } : { x: "-100%" }}
+                transition={{ duration: 0.85, repeat: btnHov1 ? Infinity : 0, repeatDelay: 0.35, ease: "easeInOut" }}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)",
+                  pointerEvents: "none",
+                }}
+              />
+              <span style={{ position: "relative", zIndex: 1 }}>View Project</span>
+              <motion.span
+                animate={{ x: btnHov1 ? 3 : 0 }}
+                transition={{ duration: 0.25 }}
+                style={{ position: "relative", zIndex: 1, fontSize: "14px", display: "inline-block" }}
+              >
+                →
+              </motion.span>
+            </a>
+
+            {/* Secondary CTA: GitHub with lime energy border & glass glow */}
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={() => setBtnHov2(true)}
+              onMouseLeave={() => setBtnHov2(false)}
+              style={{
+                position: "relative",
+                overflow: "hidden",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "12px 24px",
+                borderRadius: "100px",
+                border: btnHov2
+                  ? "1.5px solid #a3e635"
+                  : "1px solid rgba(255,255,255,0.15)",
+                background: btnHov2
+                  ? "radial-gradient(circle at center, rgba(163,230,53,0.15) 0%, rgba(163,230,53,0.03) 100%)"
+                  : "rgba(255,255,255,0.03)",
+                backdropFilter: "blur(8px)",
+                color: btnHov2 ? "#a3e635" : "#fff",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "11px",
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textDecoration: "none",
+                textTransform: "uppercase",
+                boxShadow: btnHov2
+                  ? "0 0 28px rgba(163,230,53,0.38), inset 0 0 16px rgba(163,230,53,0.15)"
+                  : "none",
+                transform: btnHov2 ? "translateY(-2px) scale(1.025)" : "translateY(0) scale(1)",
+                transition: "all 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+                cursor: "pointer",
               }}
             >
-              <FaGithub size={13} />
-              <span>View on GitHub</span>
-              <span style={{ fontSize: "13px" }}>↗</span>
+              <FaGithub size={15} style={{ color: btnHov2 ? LIME : "#fff", transition: "color 0.3s ease" }} />
+              <span>GitHub</span>
             </a>
-          </div>
+          </motion.div>
+        </div>
+
+        {/* ── RIGHT: Hero Screenshot with 3D Parallax, Float & Energy Glow ── */}
+        <div
+          onMouseMove={handleMouseMove}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            height: "100%",
+            zIndex: 5,
+            perspective: "1200px",
+          }}
+        >
+          {/* Atmospheric ambient backdrop glow */}
+          <div style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "130%",
+            height: "130%",
+            borderRadius: "50%",
+            background: "radial-gradient(ellipse, rgba(163,230,53,0.03) 0%, transparent 60%)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }} />
+
+
+          {/* Slow 3–5px organic floating motion wrapper */}
+          <motion.div
+            animate={{ y: [0, -4.5, 0] }}
+            transition={{
+              duration: 4.8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: "820px",
+              zIndex: 10,
+              transformStyle: "preserve-3d",
+              transform: "rotateY(-3deg) rotateX(2deg)",
+            }}
+          >
+            {/* 3D Depth & Mouse Parallax Card */}
+            <motion.div
+              animate={{
+                rotateX: tilt.rotateX,
+                rotateY: tilt.rotateY,
+                x: tilt.shiftX,
+                y: tilt.shiftY,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 240,
+                damping: 24,
+                mass: 0.6,
+              }}
+              style={{
+                position: "relative",
+                borderRadius: "16px",
+                overflow: "hidden",
+                border: imgHov
+                  ? "1px solid rgba(163,230,53,0.36)"
+                  : "1px solid rgba(163,230,53,0.12)",
+                boxShadow: imgHov
+                  ? `0 45px 95px -20px rgba(0,0,0,0.9),
+                     0 0 55px -10px rgba(163,230,53,0.24),
+                     inset 0 1px 0 rgba(255,255,255,0.08),
+                     inset 0 0 24px rgba(163,230,53,0.07)`
+                  : `0 35px 80px -15px rgba(0,0,0,0.78),
+                     0 0 30px -15px rgba(163,230,53,0.08),
+                     inset 0 1px 0 rgba(255,255,255,0.04)`,
+                transition: "border-color 0.4s ease, box-shadow 0.4s ease",
+                transformStyle: "preserve-3d",
+              }}
+            >
+              {/* Floating shadow depth layer */}
+              <div style={{
+                position: "absolute",
+                bottom: "-18px",
+                left: "8%",
+                right: "8%",
+                height: "40px",
+                borderRadius: "50%",
+                background: "radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%)",
+                filter: "blur(16px)",
+                pointerEvents: "none",
+                zIndex: -1,
+                transition: "all 0.5s ease",
+                opacity: imgHov ? 0.85 : 0.5,
+              }} />
+
+              {/* Project Image */}
+              <img
+                src={project.image}
+                alt={project.name}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  maxHeight: "530px",
+                  objectFit: "cover",
+                  display: "block",
+                  transform: imgHov ? "scale(1.025)" : "scale(1)",
+                  transition: "transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
+                }}
+                onError={e => { e.target.style.display = "none"; }}
+              />
+
+              {/* Subtle edge vignette */}
+              <div style={{
+                position: "absolute",
+                inset: 0,
+                background: `
+                  linear-gradient(to top, rgba(5,5,5,0.45) 0%, transparent 40%),
+                  linear-gradient(to bottom, rgba(5,5,5,0.15) 0%, transparent 15%)
+                `,
+                pointerEvents: "none",
+              }} />
+
+              {/* Subtle lime light sweep sheen */}
+              <motion.div
+                animate={{
+                  x: ["-130%", "220%"],
+                }}
+                transition={{
+                  repeat: Infinity,
+                  repeatDelay: 4.5,
+                  duration: 2.2,
+                  ease: [0.4, 0, 0.2, 1],
+                }}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  background: "linear-gradient(110deg, transparent 32%, rgba(163,230,53,0.06) 44%, rgba(255,255,255,0.16) 50%, rgba(163,230,53,0.06) 56%, transparent 68%)",
+                  pointerEvents: "none",
+                  mixBlendMode: "screen",
+                  zIndex: 4,
+                }}
+              />
+
+              {/* Top edge lime glow accent */}
+              <div style={{
+                position: "absolute",
+                top: 0,
+                left: "15%",
+                right: "15%",
+                height: "1.5px",
+                background: "linear-gradient(90deg, transparent, rgba(163,230,53,0.75), transparent)",
+                opacity: imgHov ? 1 : 0.45,
+                transition: "opacity 0.4s ease",
+                boxShadow: "0 0 12px #a3e635",
+                pointerEvents: "none",
+                zIndex: 5,
+              }} />
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </motion.div>
   );
 };
 
-// ── MAIN ─────────────────────────────────────────────────────────────────────
-const Projects = () => {
-  const containerRef = useRef(null);
-  const [browseHov, setBrowseHov] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+// ═══════════════════════════════════════════════════════
+// MOBILE CARD — Clean, editorial
+// ═══════════════════════════════════════════════════════
+const MobileCard = ({ project }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+    viewport={{ once: true, margin: "-40px" }}
+    style={{
+      marginBottom: "28px",
+      borderRadius: "16px",
+      overflow: "hidden",
+      background: "linear-gradient(165deg, #0a0a0e 0%, #050507 100%)",
+      border: "1px solid rgba(163,230,53,0.1)",
+    }}
+  >
+    {/* Top accent */}
+    <div style={{
+      height: "1.5px",
+      background: `linear-gradient(90deg, transparent, ${LIME}, transparent)`,
+      opacity: 0.5,
+    }} />
 
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
-
-  return (
-    <section id="projects" ref={containerRef} style={{ backgroundColor: "transparent", padding: isMobile ? "60px 14px 40px" : `clamp(80px,10vw,130px) clamp(16px,4vw,60px) clamp(60px,8vw,100px)`, color: "#fff", position: "relative", maxWidth: "100%", boxSizing: "border-box", overflowX: "hidden" }}>
-      {/* Ambient background glow */}
+    {/* Screenshot */}
+    <div style={{ position: "relative" }}>
+      <img
+        src={project.image}
+        alt={project.name}
+        style={{
+          width: "100%",
+          height: "190px",
+          objectFit: "cover",
+          display: "block",
+        }}
+        onError={e => { e.target.style.display = "none"; }}
+      />
       <div style={{
-        position: "absolute", top: "20%", left: "50%", transform: "translate(-50%, -50%)",
-        width: "800px", height: "500px", borderRadius: "50%",
-        background: "radial-gradient(ellipse, rgba(163,230,53,0.035) 0%, transparent 70%)",
-        pointerEvents: "none", zIndex: 0,
+        position: "absolute",
+        bottom: 0, left: 0, right: 0,
+        height: "60px",
+        background: "linear-gradient(to top, #050507, transparent)",
+        pointerEvents: "none",
       }} />
+    </div>
 
-      {/* HEADER */}
-      <div style={{
-        display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "flex-end",
-        flexDirection: isMobile ? "column" : "row",
-        marginBottom: isMobile ? "24px" : "56px", gap: isMobile ? "16px" : "60px",
-        flexWrap: "wrap", position: "relative", zIndex: 1,
+    {/* Content */}
+    <div style={{ padding: "18px 20px 22px" }}>
+      <h3 style={{
+        fontFamily: "'Syne', 'Arial Black', sans-serif",
+        fontSize: "clamp(1.3rem, 5.5vw, 1.8rem)",
+        fontWeight: 900,
+        color: "#fff",
+        margin: "0 0 4px",
+        letterSpacing: "-0.5px",
+        lineHeight: 1.1,
+      }}>{project.name}</h3>
+
+      <p style={{
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: "8.5px",
+        fontWeight: 700,
+        color: LIME,
+        letterSpacing: "2px",
+        margin: "0 0 14px",
+        textTransform: "uppercase",
+        opacity: 0.8,
+      }}>{project.subtitle}</p>
+
+      <p style={{
+        fontSize: "12px",
+        lineHeight: 1.7,
+        color: "#94a3b8",
+        margin: "0 0 16px",
+        fontFamily: "'Inter', sans-serif",
       }}>
-        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }} viewport={{ once: true }}>
-          <div style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-            marginBottom: "16px",
-            padding: "5px 14px",
-            borderRadius: "100px",
-            background: "linear-gradient(135deg, rgba(163,230,53,0.1) 0%, rgba(163,230,53,0.02) 100%)",
-            border: "1px solid rgba(163,230,53,0.28)",
-            boxShadow: "0 0 16px rgba(163,230,53,0.08)",
-          }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#a3e635", boxShadow: "0 0 8px #a3e635" }} />
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", color: "#a3e635", fontSize: "11px", letterSpacing: "3px", fontWeight: 800 }}>
-              SELECTED_WORK
-            </span>
-          </div>
-          <h2 style={{ fontFamily: "'Arial Black', sans-serif", fontSize: "clamp(2.4rem,9vw,5.5rem)", fontWeight: 900, color: "#fff", margin: 0, lineHeight: 0.88, letterSpacing: "-2px" }}>
-            FEATURED<br /><span style={{ color: "#a3e635" }}>PROJECTS</span>
-          </h2>
-        </motion.div>
+        {project.description.length > 130
+          ? project.description.slice(0, 130) + "…"
+          : project.description}
+      </p>
 
-        {/* Header Right: Interactive Project Gallery CTA Button */}
-        <motion.button
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-          onClick={() => { window.location.hash = "#gallery"; }}
+      {/* Highlights */}
+      <div style={{ marginBottom: "16px" }}>
+        {project.highlights.slice(0, 3).map((h, i) => (
+          <div key={i} style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "8px",
+            marginBottom: "5px",
+          }}>
+            <span style={{
+              width: 3.5, height: 3.5, borderRadius: "50%",
+              backgroundColor: LIME,
+              boxShadow: `0 0 5px ${LIME}`,
+              marginTop: 6, flexShrink: 0,
+            }} />
+            <span style={{
+              color: "#cbd5e1",
+              fontSize: "11px",
+              lineHeight: 1.5,
+            }}>{h}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Tech */}
+      <div style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "6px",
+        marginBottom: "18px",
+      }}>
+        {project.tech.map(t => renderTechBadge(t, true))}
+      </div>
+
+      {/* Actions */}
+      <div style={{ display: "flex", gap: "8px" }}>
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
-            display: "inline-flex",
+            flex: 1,
+            display: "flex",
             alignItems: "center",
-            gap: "10px",
-            padding: isMobile ? "9px 18px" : "11px 24px",
+            justifyContent: "center",
+            gap: "6px",
+            padding: "10px",
             borderRadius: "100px",
-            background: "linear-gradient(135deg, rgba(163,230,53,0.12) 0%, rgba(163,230,53,0.03) 100%)",
-            border: "1.5px solid #a3e635",
-            color: "#ffffff",
+            backgroundColor: LIME,
+            color: "#000",
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: isMobile ? "11px" : "12px",
+            fontSize: "9px",
             fontWeight: 800,
-            letterSpacing: "1.2px",
-            cursor: "pointer",
-            boxShadow: "0 0 20px rgba(163,230,53,0.22)",
-            transition: "all 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
-            marginBottom: "12px",
-            whiteSpace: "nowrap",
-            flexShrink: 0,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#a3e635";
-            e.currentTarget.style.color = "#000000";
-            e.currentTarget.style.boxShadow = "0 0 32px rgba(163,230,53,0.55)";
-            e.currentTarget.style.transform = "scale(1.04)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "linear-gradient(135deg, rgba(163,230,53,0.12) 0%, rgba(163,230,53,0.03) 100%)";
-            e.currentTarget.style.color = "#ffffff";
-            e.currentTarget.style.boxShadow = "0 0 20px rgba(163,230,53,0.22)";
-            e.currentTarget.style.transform = "scale(1)";
+            letterSpacing: "1px",
+            textDecoration: "none",
+            textTransform: "uppercase",
           }}
         >
-          <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#a3e635", boxShadow: "0 0 8px #a3e635" }} />
-          <span style={{ whiteSpace: "nowrap" }}>PROJECT GALLERY</span>
-          <span style={{
-            backgroundColor: "rgba(0,0,0,0.5)",
-            padding: "2px 7px",
-            borderRadius: "100px",
-            fontSize: "10px",
-            fontWeight: 800,
-            border: "1px solid rgba(255,255,255,0.15)",
+          View Project →
+        </a>
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            border: "1px solid rgba(255,255,255,0.1)",
+            background: "rgba(255,255,255,0.03)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textDecoration: "none",
+            color: "#fff",
+            flexShrink: 0,
+          }}
+        >
+          <FaGithub size={14} />
+        </a>
+      </div>
+    </div>
+  </motion.div>
+);
+
+// ═══════════════════════════════════════════════════════
+// MAIN COMPONENT
+// ═══════════════════════════════════════════════════════
+const Projects = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+  const [browseHov, setBrowseHov] = useState(false);
+  const autoRef = useRef(null);
+
+  useEffect(() => {
+    const fn = () => setIsMobile(window.innerWidth < 900);
+    window.addEventListener("resize", fn);
+    return () => window.removeEventListener("resize", fn);
+  }, []);
+
+  // Auto-advance every 8s on desktop
+  useEffect(() => {
+    if (isMobile) return;
+    autoRef.current = setInterval(() => {
+      setDirection(1);
+      setActiveIndex(prev => (prev + 1) % PROJECTS.length);
+    }, 8000);
+    return () => clearInterval(autoRef.current);
+  }, [isMobile, activeIndex]);
+
+  const goNext = useCallback(() => {
+    clearInterval(autoRef.current);
+    setDirection(1);
+    setActiveIndex(prev => (prev + 1) % PROJECTS.length);
+  }, []);
+
+  const goPrev = useCallback(() => {
+    clearInterval(autoRef.current);
+    setDirection(-1);
+    setActiveIndex(prev => (prev - 1 + PROJECTS.length) % PROJECTS.length);
+  }, []);
+
+  // Keyboard navigation (Arrow keys to slide)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft") goPrev();
+      if (e.key === "ArrowRight") goNext();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [goNext, goPrev]);
+
+  const active = PROJECTS[activeIndex];
+
+  return (
+    <section
+      id="projects"
+      style={{
+        backgroundColor: "transparent",
+        color: "#fff",
+        position: "relative",
+        maxWidth: "100%",
+        boxSizing: "border-box",
+        overflowX: "hidden",
+        padding: isMobile ? "60px 14px 40px" : "0",
+      }}
+    >
+      {/* ═══════ DESKTOP ═══════ */}
+      {!isMobile && (
+        <>
+          {/* Header */}
+          <div style={{
+            padding: "clamp(80px, 10vw, 130px) clamp(20px, 5vw, 80px) 0",
+            position: "relative",
+            zIndex: 20,
+            width: "100%",
+            boxSizing: "border-box",
           }}>
-            08
-          </span>
-          <span style={{ fontSize: "14px" }}>↗</span>
-        </motion.button>
-      </div>
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+              marginBottom: "40px",
+              gap: "40px",
+            }}>
+              <motion.div
+                initial={{ opacity: 0, x: -25 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7 }}
+                viewport={{ once: true }}
+              >
+                <div style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  marginBottom: "16px",
+                  padding: "5px 14px",
+                  borderRadius: "100px",
+                  background: "linear-gradient(135deg, rgba(163,230,53,0.1) 0%, rgba(163,230,53,0.02) 100%)",
+                  border: "1px solid rgba(163,230,53,0.28)",
+                  boxShadow: "0 0 16px rgba(163,230,53,0.08)",
+                }}>
+                  <span style={{
+                    width: 6, height: 6, borderRadius: "50%",
+                    backgroundColor: LIME, boxShadow: `0 0 8px ${LIME}`,
+                  }} />
+                  <span style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: LIME,
+                    fontSize: "11px",
+                    letterSpacing: "3px",
+                    fontWeight: 800,
+                  }}>SELECTED_WORK</span>
+                </div>
+                <h2 style={{
+                  fontFamily: "'Arial Black', sans-serif",
+                  fontSize: "clamp(2.4rem,9vw,5.5rem)",
+                  fontWeight: 900,
+                  color: "#fff",
+                  margin: 0,
+                  lineHeight: 0.88,
+                  letterSpacing: "-2px",
+                }}>
+                  FEATURED<br />
+                  <span style={{ color: LIME }}>PROJECTS</span>
+                </h2>
+              </motion.div>
 
-      <div style={{ width: "100%", height: "1px", background: "linear-gradient(90deg, rgba(163,230,53,0.3), #1a1a1a, transparent)", marginBottom: isMobile ? "24px" : "48px" }} />
+              {/* Header Right: Gallery Button */}
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+                marginBottom: "12px",
+                flexShrink: 0,
+              }}>
+                {/* Gallery Button */}
+                <motion.button
+                  initial={{ opacity: 0, x: 25 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.7 }}
+                  viewport={{ once: true }}
+                  onClick={() => { window.location.hash = "#gallery"; }}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "11px 24px",
+                    borderRadius: "100px",
+                    background: "linear-gradient(135deg, rgba(163,230,53,0.12) 0%, rgba(163,230,53,0.03) 100%)",
+                    border: "1.5px solid #a3e635",
+                    color: "#ffffff",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: "12px",
+                    fontWeight: 800,
+                    letterSpacing: "1.2px",
+                    cursor: "pointer",
+                    boxShadow: "0 0 20px rgba(163,230,53,0.22)",
+                    transition: "all 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+                    whiteSpace: "nowrap",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "#a3e635";
+                    e.currentTarget.style.color = "#000000";
+                    e.currentTarget.style.boxShadow = "0 0 32px rgba(163,230,53,0.55)";
+                    e.currentTarget.style.transform = "scale(1.04)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "linear-gradient(135deg, rgba(163,230,53,0.12) 0%, rgba(163,230,53,0.03) 100%)";
+                    e.currentTarget.style.color = "#ffffff";
+                    e.currentTarget.style.boxShadow = "0 0 20px rgba(163,230,53,0.22)";
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
+                >
+                  <span style={{
+                    width: 7, height: 7, borderRadius: "50%",
+                    backgroundColor: LIME, boxShadow: `0 0 8px ${LIME}`,
+                  }} />
+                  <span>PROJECT GALLERY</span>
+                  <span style={{
+                    backgroundColor: "rgba(0,0,0,0.5)",
+                    padding: "2px 7px",
+                    borderRadius: "100px",
+                    fontSize: "10px",
+                    fontWeight: 800,
+                    border: "1px solid rgba(255,255,255,0.15)",
+                  }}>
+                    {String(PROJECTS.length).padStart(2, "0")}
+                  </span>
+                  <span style={{ fontSize: "14px" }}>↗</span>
+                </motion.button>
+              </div>
+            </div>
 
-      {/* Cards */}
-      <div style={{ display: "flex", flexDirection: "column", position: "relative", zIndex: 1 }}>
-        {PROJECTS.map((project, index) =>
-          isMobile ? (
-            <MobileProjectCard key={project.id} project={project} />
-          ) : (
-            <DesktopProjectCard key={project.id} project={project} index={index} total={PROJECTS.length} containerProgress={scrollYProgress} />
-          )
-        )}
-      </div>
+            <div style={{
+              width: "100%",
+              height: "1px",
+              background: "linear-gradient(90deg, rgba(163,230,53,0.3), #1a1a1a, transparent)",
+            }} />
+          </div>
 
-      {/* Browse all */}
-      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} style={{ display: "flex", justifyContent: "center", paddingTop: isMobile ? "40px" : "80px", position: "relative", zIndex: 1 }}>
+          {/* Cinematic Slidable Viewport */}
+          <div style={{
+            position: "relative",
+            width: "100%",
+            height: "clamp(620px, 76vh, 800px)",
+            overflow: "hidden",
+          }}>
+            {/* Fine background grid */}
+            <div style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `
+                linear-gradient(rgba(163,230,53,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(163,230,53,0.015) 1px, transparent 1px)
+              `,
+              backgroundSize: "60px 60px",
+              pointerEvents: "none",
+              zIndex: 0,
+              mask: "radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%)",
+              WebkitMask: "radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%)",
+            }} />
+
+            {/* Left Floating Arrow Button */}
+            <button
+              onClick={goPrev}
+              aria-label="Previous project slide"
+              style={{
+                position: "absolute",
+                left: "clamp(12px, 2vw, 28px)",
+                top: "50%",
+                transform: "translateY(-50%)",
+                width: "44px",
+                height: "44px",
+                borderRadius: "50%",
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(10,10,14,0.65)",
+                backdropFilter: "blur(12px)",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                zIndex: 35,
+                transition: "all 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+                boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = LIME;
+                e.currentTarget.style.color = LIME;
+                e.currentTarget.style.transform = "translateY(-50%) scale(1.1)";
+                e.currentTarget.style.boxShadow = "0 0 20px rgba(163,230,53,0.3)";
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
+                e.currentTarget.style.color = "#fff";
+                e.currentTarget.style.transform = "translateY(-50%) scale(1)";
+                e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.4)";
+              }}
+            >
+              <FaChevronLeft size={14} />
+            </button>
+
+            {/* Right Floating Arrow Button */}
+            <button
+              onClick={goNext}
+              aria-label="Next project slide"
+              style={{
+                position: "absolute",
+                right: "clamp(12px, 2vw, 28px)",
+                top: "50%",
+                transform: "translateY(-50%)",
+                width: "44px",
+                height: "44px",
+                borderRadius: "50%",
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(10,10,14,0.65)",
+                backdropFilter: "blur(12px)",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                zIndex: 35,
+                transition: "all 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+                boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = LIME;
+                e.currentTarget.style.color = LIME;
+                e.currentTarget.style.transform = "translateY(-50%) scale(1.1)";
+                e.currentTarget.style.boxShadow = "0 0 20px rgba(163,230,53,0.3)";
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
+                e.currentTarget.style.color = "#fff";
+                e.currentTarget.style.transform = "translateY(-50%) scale(1)";
+                e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.4)";
+              }}
+            >
+              <FaChevronRight size={14} />
+            </button>
+
+            <AnimatePresence mode="wait" custom={direction}>
+              <CinematicSlide
+                key={active.id}
+                project={active}
+                direction={direction}
+                goNext={goNext}
+                goPrev={goPrev}
+              />
+            </AnimatePresence>
+          </div>
+        </>
+      )}
+
+      {/* ═══════ MOBILE ═══════ */}
+      {isMobile && (
+        <>
+          <motion.div
+            initial={{ opacity: 0, x: -15 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            style={{ marginBottom: "24px" }}
+          >
+            <div style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              marginBottom: "14px",
+              padding: "4px 12px",
+              borderRadius: "100px",
+              background: "rgba(163,230,53,0.08)",
+              border: "1px solid rgba(163,230,53,0.25)",
+            }}>
+              <span style={{
+                width: 5, height: 5, borderRadius: "50%",
+                backgroundColor: LIME, boxShadow: `0 0 6px ${LIME}`,
+              }} />
+              <span style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                color: LIME,
+                fontSize: "9px",
+                letterSpacing: "2.5px",
+                fontWeight: 800,
+              }}>SELECTED_WORK</span>
+            </div>
+            <h2 style={{
+              fontFamily: "'Arial Black', sans-serif",
+              fontSize: "clamp(2rem, 10vw, 3.5rem)",
+              fontWeight: 900,
+              color: "#fff",
+              margin: 0,
+              lineHeight: 0.9,
+              letterSpacing: "-1.5px",
+            }}>
+              FEATURED<br />
+              <span style={{ color: LIME }}>PROJECTS</span>
+            </h2>
+          </motion.div>
+
+          <div style={{
+            width: "100%",
+            height: "1px",
+            background: "linear-gradient(90deg, rgba(163,230,53,0.3), #1a1a1a, transparent)",
+            marginBottom: "24px",
+          }} />
+
+          {PROJECTS.map((p) => (
+            <MobileCard key={p.id} project={p} />
+          ))}
+        </>
+      )}
+
+      {/* Browse All */}
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          paddingTop: isMobile ? "16px" : "56px",
+          paddingBottom: isMobile ? "0" : "clamp(60px,8vw,100px)",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
         <a
           href="https://github.com/devanshrawat27"
           target="_blank"
@@ -590,7 +1167,7 @@ const Projects = () => {
             display: "inline-flex",
             alignItems: "center",
             gap: "12px",
-            border: "1.5px solid #a3e635",
+            border: `1.5px solid ${LIME}`,
             borderRadius: "100px",
             padding: isMobile ? "13px 26px" : "15px 48px",
             fontSize: "11px",
@@ -598,17 +1175,30 @@ const Projects = () => {
             letterSpacing: "2px",
             textDecoration: "none",
             textTransform: "uppercase",
-            color: browseHov ? "#000000" : "#a3e635",
+            color: browseHov ? "#000" : LIME,
             transition: "all 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
-            boxShadow: browseHov ? "0 0 35px rgba(163,230,53,0.4)" : "0 0 16px rgba(163,230,53,0.15)",
+            boxShadow: browseHov
+              ? "0 0 35px rgba(163,230,53,0.4)"
+              : "0 0 16px rgba(163,230,53,0.15)",
             cursor: "pointer",
             whiteSpace: "nowrap",
             maxWidth: "calc(100vw - 32px)",
           }}
         >
-          <span style={{ position: "absolute", inset: 0, backgroundColor: "#a3e635", transform: browseHov ? "scaleY(1)" : "scaleY(0)", transformOrigin: "bottom", transition: "transform 0.35s cubic-bezier(0.4,0,0.2,1)" }} />
+          <span style={{
+            position: "absolute",
+            inset: 0,
+            backgroundColor: LIME,
+            transform: browseHov ? "scaleY(1)" : "scaleY(0)",
+            transformOrigin: "bottom",
+            transition: "transform 0.35s cubic-bezier(0.4,0,0.2,1)",
+          }} />
           <FaGithub size={15} style={{ position: "relative", zIndex: 1, flexShrink: 0 }} />
-          <span style={{ position: "relative", zIndex: 1, fontFamily: "'JetBrains Mono', monospace", whiteSpace: "nowrap" }}>Browse All Projects</span>
+          <span style={{
+            position: "relative",
+            zIndex: 1,
+            fontFamily: "'JetBrains Mono', monospace",
+          }}>Browse All Projects</span>
           <span style={{ position: "relative", zIndex: 1, fontSize: "16px", flexShrink: 0 }}>→</span>
         </a>
       </motion.div>

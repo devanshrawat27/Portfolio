@@ -80,12 +80,11 @@ const Experience = () => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        padding: "clamp(60px, 8vw, 120px) clamp(16px, 4vw, 100px)",
+        padding: "clamp(60px, 8vw, 120px) clamp(20px, 5vw, 80px)",
         backgroundColor: "transparent",
         position: "relative",
         zIndex: 1,
-        maxWidth: "1280px",
-        margin: "0 auto",
+        width: "100%",
         boxSizing: "border-box",
         overflow: "hidden",
       }}
@@ -159,7 +158,7 @@ const Experience = () => {
       </div>
 
       {/* ── EXPERIENCE LIST ── */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "32px", width: "100%" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "32px", width: "100%", maxWidth: "1280px", margin: "0 auto" }}>
         {EXPERIENCES.map((exp, idx) => {
           const isHov = hoveredIdx === idx;
 
@@ -174,19 +173,18 @@ const Experience = () => {
                 borderRadius: "24px",
                 padding: "clamp(20px, 4.5vw, 44px)",
                 background: isHov
-                  ? "linear-gradient(145deg, rgba(24, 24, 24, 0.9) 0%, rgba(12, 12, 12, 0.98) 100%)"
-                  : "linear-gradient(145deg, rgba(18, 18, 18, 0.8) 0%, rgba(9, 9, 9, 0.95) 100%)",
-                backdropFilter: "blur(24px)",
-                WebkitBackdropFilter: "blur(24px)",
+                  ? "linear-gradient(145deg, rgba(24, 24, 26, 0.98) 0%, rgba(12, 12, 14, 0.99) 100%)"
+                  : "linear-gradient(145deg, rgba(16, 16, 18, 0.95) 0%, rgba(10, 10, 12, 0.98) 100%)",
                 border: isHov
                   ? "1px solid rgba(163, 230, 53, 0.35)"
                   : "1px solid rgba(255, 255, 255, 0.08)",
                 boxShadow: isHov
                   ? "0 28px 70px rgba(0, 0, 0, 0.7), 0 0 45px rgba(163, 230, 53, 0.09)"
                   : "0 12px 40px rgba(0, 0, 0, 0.4)",
-                transition: "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+                transition: "all 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
                 transform: isHov ? "translateY(-4px)" : "translateY(0)",
                 overflow: "hidden",
+                contain: "paint",
               }}
             >
               {/* Subtle top border highlight shine */}

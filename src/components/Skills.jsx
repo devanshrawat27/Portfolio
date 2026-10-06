@@ -22,8 +22,6 @@ import {
   SiAmazonwebservices,
   SiGit,
   SiGithub,
-  SiOpenai,
-  SiGooglegemini,
   SiPytorch,
 } from "react-icons/si";
 
@@ -50,8 +48,6 @@ const SKILLS = [
   { name: "AWS",          cat: "DEVOPS",   color: "#FF9900", icon: SiAmazonwebservices },
   { name: "Git",          cat: "DEVOPS",   color: "#F05032", icon: SiGit },
   { name: "GitHub",       cat: "DEVOPS",   color: "#E2E8F0", icon: SiGithub },
-  { name: "OpenAI",       cat: "AI/ML",    color: "#10A37F", icon: SiOpenai },
-  { name: "Gemini API",   cat: "AI/ML",    color: "#8E75FF", icon: SiGooglegemini },
   { name: "PyTorch",      cat: "AI/ML",    color: "#EE4C2C", icon: SiPytorch },
 ];
 
@@ -109,10 +105,8 @@ function SkillCard({ skill, delay, onHover, onLeave }) {
         borderRadius: 22,
         border: `1px solid ${hov ? `${skill.color}66` : "rgba(255, 255, 255, 0.08)"}`,
         background: hov
-          ? `linear-gradient(145deg, rgba(${rgb}, 0.12) 0%, rgba(12, 12, 16, 0.95) 100%)`
-          : "linear-gradient(145deg, rgba(255, 255, 255, 0.025) 0%, rgba(8, 8, 10, 0.85) 100%)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
+          ? `linear-gradient(145deg, rgba(${rgb}, 0.16) 0%, rgba(14, 14, 18, 0.98) 100%)`
+          : "linear-gradient(145deg, rgba(22, 22, 26, 0.85) 0%, rgba(10, 10, 12, 0.95) 100%)",
         cursor: "pointer",
         overflow: "hidden",
         transform: hov
@@ -120,15 +114,10 @@ function SkillCard({ skill, delay, onHover, onLeave }) {
           : "perspective(700px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)",
         transition: hov
           ? "transform 0.1s ease-out, border-color 0.25s ease, box-shadow 0.25s ease"
-          : "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease",
+          : "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease",
         boxShadow: hov
           ? `0 22px 45px -12px rgba(0, 0, 0, 0.9), 0 0 35px -5px rgba(${rgb}, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25)`
           : "0 4px 20px -4px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.04)",
-        animationName: "tsCardIn",
-        animationDuration: "0.5s",
-        animationTimingFunction: "ease",
-        animationFillMode: "both",
-        animationDelay: `${delay}ms`,
         zIndex: hov ? 10 : 1,
         display: "flex",
         flexDirection: "column",
@@ -136,6 +125,7 @@ function SkillCard({ skill, delay, onHover, onLeave }) {
         justifyContent: "center",
         gap: 16,
         minHeight: 168,
+        contain: "paint",
       }}
     >
       {/* Interactive Cursor Spotlight Follower */}
@@ -266,7 +256,6 @@ export default function Skills() {
   return (
     <section id="skills" ref={sectionRef} style={{ background: "#000000", minHeight: "100vh", padding: "clamp(60px,10vw,100px) 0 80px", position: "relative", overflow: "hidden" }}>
       <style>{`
-        @keyframes tsCardIn { from { opacity:0; transform: scale(0.85) translateY(20px); } to { opacity:1; transform: scale(1) translateY(0px); } }
         @keyframes tsOrbit { to { transform: rotate(360deg); } }
       `}</style>
 
@@ -337,9 +326,7 @@ export default function Skills() {
                 border: on ? "1px solid #a3e635" : "1px solid rgba(255,255,255,0.1)",
                 background: on
                   ? "linear-gradient(135deg, #a3e635 0%, #84cc16 100%)"
-                  : "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.015) 100%)",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
+                  : "linear-gradient(135deg, rgba(30,30,36,0.9) 0%, rgba(18,18,22,0.95) 100%)",
                 color: on ? "#000" : "#cbd5e1",
                 cursor: "pointer",
                 fontWeight: on ? 800 : 600,
