@@ -714,6 +714,7 @@ const Projects = () => {
   const [direction, setDirection] = useState(1);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
   const [browseHov, setBrowseHov] = useState(false);
+  const [paused, setPaused] = useState(false);
   const autoRef = useRef(null);
 
   useEffect(() => {
@@ -722,15 +723,15 @@ const Projects = () => {
     return () => window.removeEventListener("resize", fn);
   }, []);
 
-  // Auto-advance every 8s on desktop
+  // Auto-advance every 8s on desktop — pauses while hovered
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile || paused) return;
     autoRef.current = setInterval(() => {
       setDirection(1);
       setActiveIndex(prev => (prev + 1) % PROJECTS.length);
     }, 8000);
     return () => clearInterval(autoRef.current);
-  }, [isMobile, activeIndex]);
+  }, [isMobile, activeIndex, paused]);
 
   const goNext = useCallback(() => {
     clearInterval(autoRef.current);
@@ -904,12 +905,16 @@ const Projects = () => {
           </div>
 
           {/* Cinematic Slidable Viewport */}
-          <div style={{
-            position: "relative",
-            width: "100%",
-            height: "clamp(620px, 76vh, 800px)",
-            overflow: "hidden",
-          }}>
+          <div
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            style={{
+              position: "relative",
+              width: "100%",
+              height: "clamp(620px, 76vh, 800px)",
+              overflow: "hidden",
+            }}
+          >
             {/* Fine background grid */}
             <div style={{
               position: "absolute",
