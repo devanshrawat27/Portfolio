@@ -3,78 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   FaGithub,
   FaCode,
-  FaTerminal,
-  FaBrain,
-  FaMicrochip,
-  FaCogs,
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
-import {
-  SiReact,
-  SiNodedotjs,
-  SiExpress,
-  SiFirebase,
-  SiSocketdotio,
-  SiGooglegemini,
-  SiPython,
-  SiPytorch,
-  SiMongodb,
-  SiWebrtc,
-  SiBootstrap,
-  SiFlask,
-  SiScikitlearn,
-  SiPandas,
-  SiNumpy,
-  SiChartdotjs,
-  SiSupabase,
-  SiPostgresql,
-  SiTailwindcss,
-  SiOpenai,
-  SiHuggingface,
-  SiJavascript,
-} from "react-icons/si";
 import { PROJECTS } from "../data/projectsData";
-
-// ═══════════════════════════════════════════════════════
-// DESIGN TOKENS & REAL TECH ICONS MAPPING
-// ═══════════════════════════════════════════════════════
-const LIME = "#a3e635";
-
-const TECH_ICONS_MAP = {
-  "React.js": { icon: SiReact, color: "#61DAFB" },
-  "React": { icon: SiReact, color: "#61DAFB" },
-  "Node.js": { icon: SiNodedotjs, color: "#5FA04E" },
-  "Express.js": { icon: SiExpress, color: "#f8fafc" },
-  "Firebase": { icon: SiFirebase, color: "#FFCA28" },
-  "Socket.io": { icon: SiSocketdotio, color: "#f8fafc" },
-  "Gemini API": { icon: SiGooglegemini, color: "#A78BFA" },
-  "Python": { icon: SiPython, color: "#38BDF8" },
-  "Compilers": { icon: FaCode, color: LIME },
-  "AST Parsing": { icon: FaCogs, color: LIME },
-  "Lexical Analysis": { icon: FaTerminal, color: LIME },
-  "Code Gen": { icon: FaCode, color: LIME },
-  "PyTorch": { icon: SiPytorch, color: "#EE4C2C" },
-  "CycleGAN": { icon: FaBrain, color: LIME },
-  "Deep Learning": { icon: FaBrain, color: LIME },
-  "Gradio": { icon: SiPython, color: "#FB923C" },
-  "HuggingFace": { icon: SiHuggingface, color: "#FBBF24" },
-  "MongoDB": { icon: SiMongodb, color: "#4ADE80" },
-  "WebRTC": { icon: SiWebrtc, color: "#38BDF8" },
-  "EJS": { icon: SiJavascript, color: "#FACC15" },
-  "Bootstrap": { icon: SiBootstrap, color: "#C084FC" },
-  "Flask": { icon: SiFlask, color: "#f8fafc" },
-  "Scikit-learn": { icon: SiScikitlearn, color: "#FB923C" },
-  "Pandas": { icon: SiPandas, color: "#F43F5E" },
-  "NumPy": { icon: SiNumpy, color: "#38BDF8" },
-  "Chart.js": { icon: SiChartdotjs, color: "#F43F5E" },
-  "Supabase": { icon: SiSupabase, color: "#34D399" },
-  "PostgreSQL": { icon: SiPostgresql, color: "#60A5FA" },
-  "Tailwind CSS": { icon: SiTailwindcss, color: "#38BDF8" },
-  "OpenAI API": { icon: SiOpenai, color: "#34D399" },
-  "LLMs": { icon: FaBrain, color: LIME },
-  "Multithreading": { icon: FaMicrochip, color: LIME },
-};
+import { LIME, TECH_ICONS_MAP } from "../data/techIcons";
 
 const renderTechBadge = (t, isSmall = false) => {
   const item = TECH_ICONS_MAP[t] || { icon: FaCode, color: LIME };

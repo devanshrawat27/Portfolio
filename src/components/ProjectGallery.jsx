@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaGithub, FaTimes } from "react-icons/fa";
+import { FaGithub, FaTimes, FaCode } from "react-icons/fa";
 import { HiArrowLeft, HiOutlineViewGrid, HiOutlineFilm } from "react-icons/hi";
 import { PROJECTS } from "../data/projectsData";
+import { TECH_ICONS_MAP } from "../data/techIcons";
 
 function hexToRgb(hex) {
   const h = hex.replace("#", "");
@@ -251,23 +252,31 @@ const ProjectModal = ({ project, onClose, onPrev, onNext }) => {
               Tech Stack & Dependencies
             </h4>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "7px" }}>
-              {project.tech.map((t) => (
-                <span
-                  key={t}
-                  style={{
-                    backgroundColor: `rgba(${rgb},0.12)`,
-                    border: `1px solid ${project.accent}44`,
-                    color: project.accent,
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    padding: "5px 14px",
-                    borderRadius: "100px",
-                    fontFamily: "'JetBrains Mono', monospace",
-                  }}
-                >
-                  {t}
-                </span>
-              ))}
+              {project.tech.map((t) => {
+                const item = TECH_ICONS_MAP[t] || { icon: FaCode, color: project.accent };
+                const IconComp = item.icon;
+                return (
+                  <span
+                    key={t}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      backgroundColor: `rgba(${rgb},0.12)`,
+                      border: `1px solid ${project.accent}44`,
+                      color: project.accent,
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      padding: "5px 14px",
+                      borderRadius: "100px",
+                      fontFamily: "'JetBrains Mono', monospace",
+                    }}
+                  >
+                    <IconComp size={12} style={{ color: item.color, flexShrink: 0 }} />
+                    {t}
+                  </span>
+                );
+              })}
             </div>
           </div>
 
