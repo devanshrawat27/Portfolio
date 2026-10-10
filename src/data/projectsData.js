@@ -7,7 +7,7 @@ export const PROJECTS = [
     tag: "Agentic AI / RAG",
     category: "AI / ML",
     year: "2026",
-    image: "/truedoc.png",
+    image: "/truedoc.webp",
     description: "An AI assistant that answers complex, multi-hop questions across enterprise documents — contracts, policies, and compliance records. It connects facts across multiple documents using a knowledge graph and verifies each answer against source evidence to reduce hallucination. Built as a multi-agent pipeline (Planner → Retriever → Verifier → Answerer) where the Verifier agent cross-checks every claim against retrieved evidence.",
     highlights: [
       "Multi-agent pipeline: Planner → Retriever → Verifier → Answerer",
@@ -30,7 +30,7 @@ export const PROJECTS = [
     tag: "AI / Full Stack",
     category: "Full Stack",
     year: "2026",
-    image: "/project1.png",
+    image: "/project1.webp",
     description: "A virtual queue system built for Indian college administration offices (Fee Cells, Admission Cells). Students join a live digital queue by scanning a QR code, while five specialized autonomous AI monitors run silently to keep the queue clean, fair, and real-time.",
     highlights: [
       "Scan QR to join live digital queue with no app or account required",
@@ -53,7 +53,7 @@ export const PROJECTS = [
     tag: "Compilers / Python",
     category: "Systems",
     year: "2026",
-    image: "/project2.png",
+    image: "/project2.webp",
     description: "A compiler-based system that allows users to query CSV files using SQL-like syntax without requiring a database. It converts queries into optimized, streaming Python code through lexical analysis, parsing, semantic checking, and code generation, enabling efficient data retrieval.",
     highlights: [
       "Translates SQL-like queries into executable, streaming Python code",
@@ -76,7 +76,7 @@ export const PROJECTS = [
     tag: "Deep Learning",
     category: "AI / ML",
     year: "2025",
-    image: "/project3.png",
+    image: "/project3.webp",
     description: "CycleGAN-based unpaired image-to-image translation system that enhances low-cost, blurry echocardiography images into high-quality, MRI-like cardiac visuals. Solves diagnostic accessibility issues in rural areas by making cardiac imaging affordable and intelligent.",
     highlights: [
       "Unpaired image-to-image translation using CycleGAN & PatchGAN",
@@ -99,7 +99,7 @@ export const PROJECTS = [
     tag: "Full Stack / WebRTC",
     category: "Full Stack",
     year: "2026",
-    image: "/project4.png",
+    image: "/project4.webp",
     description: "Full-stack real-time video conferencing app using WebRTC for peer-to-peer communication. No third-party SDK dependency — pure WebRTC, Socket.io signaling, and live chat.",
     highlights: [
       "Low-latency real-time video & audio via direct WebRTC mesh",
@@ -122,7 +122,7 @@ export const PROJECTS = [
     tag: "Full Stack",
     category: "Full Stack",
     year: "2026",
-    image: "/project5.png",
+    image: "/project5.webp",
     description: "Accommodation booking platform — explore, list, and manage unique stays. Full MVC architecture with bookings, reviews, and user authentication.",
     highlights: [
       "Browse, search & filter curated vacation stays",
@@ -145,7 +145,7 @@ export const PROJECTS = [
     tag: "AI / Python",
     category: "AI / ML",
     year: "2025",
-    image: "/project6.png",
+    image: "/project6.webp",
     description: "Advanced system monitoring tool with ML-based anomaly detection. Tracks processes in real-time and flags suspicious behavior via web dashboard.",
     highlights: [
       "Real-time CPU, RAM and thread process tracking",
@@ -168,7 +168,7 @@ export const PROJECTS = [
     tag: "Networking",
     category: "Full Stack",
     year: "2025",
-    image: "/project7.png",
+    image: "/project7.webp",
     description: "Platform for students to connect with project partners by skill & interest. Build teams for hackathons, projects, and learning opportunities.",
     highlights: [
       "Dynamic profile creation with verified skill tags",
@@ -191,7 +191,7 @@ export const PROJECTS = [
     tag: "Agentic AI",
     category: "AI / ML",
     year: "2026",
-    image: "/project8.png",
+    image: "/project8.webp",
     description: "Multi-agent AI architecture with parallel LLM specialists analyzing medical reports. Each agent provides domain-specific insights, aggregated into actionable health analysis.",
     highlights: [
       "Multi-agent architecture with parallel LLM workers",

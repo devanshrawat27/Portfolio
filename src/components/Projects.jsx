@@ -468,6 +468,8 @@ const CinematicSlide = ({ project, direction, goNext, goPrev }) => {
               <img
                 src={project.image}
                 alt={project.name}
+                loading="lazy"
+                decoding="async"
                 style={{
                   width: "100%",
                   height: "auto",
@@ -565,6 +567,8 @@ const MobileCard = ({ project }) => (
       <img
         src={project.image}
         alt={project.name}
+        loading="lazy"
+        decoding="async"
         style={{
           width: "100%",
           height: "190px",

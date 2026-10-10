@@ -58,7 +58,7 @@ const Navbar = () => {
             boxShadow: "0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04)",
           }}>
             <div style={{ width: "36px", height: "36px", borderRadius: "50%", overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)" }}>
-              <img src="/pass.png" alt="me" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img src="/pass.webp" alt="me" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
 
             <AnimatePresence mode="wait">
@@ -199,7 +199,7 @@ const Navbar = () => {
             border: "1.5px solid rgba(255,255,255,0.08)",
           }}
         >
-          <img src="/pass.png" alt="me" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src="/pass.webp" alt="me" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
 
         <AnimatePresence mode="wait">

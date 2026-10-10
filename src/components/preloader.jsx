@@ -149,6 +149,56 @@ const Preloader = ({ onComplete }) => {
   }, [onComplete]);
 
   useEffect(() => {
+    // ── Preload every portfolio image while the preloader plays,
+    //    so they are decoded and ready the instant the site is revealed ──
+    const PRELOAD_IMAGES = [
+      "/pass.webp",
+      "/truedoc.webp",
+      "/project1.webp",
+      "/project2.webp",
+      "/project3.webp",
+      "/project4.webp",
+      "/project5.webp",
+      "/project6.webp",
+      "/project7.webp",
+      "/project8.webp",
+    ];
+    // Promise that resolves once every image is preloaded (or a hard 4s cap,
+    // so slow networks never trap the visitor on the preloader).
+    const imagesReady = new Promise((resolve) => {
+      let settled = false;
+      let remaining = PRELOAD_IMAGES.length;
+      const done = () => {
+        if (!settled) {
+          settled = true;
+          resolve();
+        }
+      };
+      const guard = setTimeout(done, 4000);
+      if (remaining === 0) {
+        clearTimeout(guard);
+        done();
+        return;
+      }
+      PRELOAD_IMAGES.forEach((src) => {
+        const img = new Image();
+        img.decoding = "async";
+        img.onload = () => {
+          if (--remaining === 0) {
+            clearTimeout(guard);
+            done();
+          }
+        };
+        img.onerror = () => {
+          if (--remaining === 0) {
+            clearTimeout(guard);
+            done();
+          }
+        };
+        img.src = src;
+      });
+    });
+
     if (reducedMotion) {
       const t = setTimeout(finish, 300);
       return () => clearTimeout(t);
@@ -440,7 +490,7 @@ const Preloader = ({ onComplete }) => {
     });
     gsap.set(underlineRef.current, { scaleX: 0, transformOrigin: "center center" });
 
-    const tl = gsap.timeline({ onComplete: finish });
+    const tl = gsap.timeline();
 
     tl.to(animState, {
       reveal: 1.0,
@@ -470,23 +520,37 @@ const Preloader = ({ onComplete }) => {
       ease: "power3.inOut",
     }, 1.35);
 
-    tl.to(animState, {
+    // ── Exit is gated: it only plays once the minimum hold has elapsed AND
+    //    every portfolio image has finished preloading (4s cap) ──
+    const exitTl = gsap.timeline({ paused: true, onComplete: finish });
+    exitTl.to(animState, {
       exit: 1.0,
       duration: 0.45,
       ease: "power2.in",
-    }, 2.45);
-
-    tl.to(
+    }, 0);
+    exitTl.to(
       underlineRef.current,
       { opacity: 0, duration: 0.3, ease: "power2.in" },
-      2.45
+      0
     );
-
-    tl.to(container, {
+    exitTl.to(container, {
       opacity: 0,
       duration: 0.35,
       ease: "power2.inOut",
-    }, 2.52);
+    }, 0.07);
+
+    const HOLD_MS = 2450;
+    let exitStarted = false;
+    const startExit = () => {
+      if (exitStarted) return;
+      exitStarted = true;
+      exitTl.play();
+    };
+    const holdTimer = setTimeout(() => {
+      // Exit as soon as the minimum hold is done AND images are ready
+      // (imagesReady self-caps at 4s, so this never hangs).
+      Promise.resolve(imagesReady).then(startExit);
+    }, HOLD_MS);
 
     // ════════════════════════════════════════════════════════════════════════
     // 3. RENDER LOOP
@@ -532,6 +596,8 @@ const Preloader = ({ onComplete }) => {
     return () => {
       cancelAnimationFrame(animationFrameId);
       tl.kill();
+      exitTl.kill();
+      clearTimeout(holdTimer);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", onMouseMove);
       document.body.style.overflow = prevOverflow;

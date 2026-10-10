@@ -56,7 +56,7 @@ const Contact = () => {
         {/* LEFT — Image */}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <div style={{ position: "relative", width: "100%", maxWidth: "380px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 32px 80px rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <img src="/pass.png" alt="Devansh Rawat"
+            <img src="/pass.webp" alt="Devansh Rawat"
               style={{ width: "100%", height: "clamp(320px,60vw,480px)", objectFit: "cover", objectPosition: "center top", display: "block" }}
               onError={e => { e.target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=380&h=480&fit=crop&crop=top"; }}
             />

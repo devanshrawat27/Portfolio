@@ -112,7 +112,7 @@ const Hero = () => {
             boxShadow: "0 20px 50px -10px rgba(0,0,0,0.8), 0 0 35px -10px rgba(163,230,53,0.2)",
             position: "relative",
           }}>
-            <img src="/pass.png" alt="Devansh" loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src="/pass.webp" alt="Devansh" loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "linear-gradient(180deg, transparent 70%, rgba(0,0,0,0.35) 100%)" }} />
           </div>
 
@@ -235,7 +235,7 @@ const Hero = () => {
             boxShadow: "0 25px 60px -10px rgba(0,0,0,0.8), 0 0 35px -5px rgba(163,230,53,0.18)",
             position: "relative",
           }}>
-            <img src="/pass.png" alt="Devansh" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src="/pass.webp" alt="Devansh" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             {/* Subtle glass vignette */}
             <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "linear-gradient(180deg, transparent 75%, rgba(0,0,0,0.4) 100%)" }} />
           </div>

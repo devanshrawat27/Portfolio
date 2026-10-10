@@ -110,6 +110,8 @@ const ProjectModal = ({ project, onClose, onPrev, onNext }) => {
           <img
             src={project.image}
             alt={project.name}
+            loading="lazy"
+            decoding="async"
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             onError={(e) => { e.target.style.display = "none"; }}
           />
@@ -423,6 +425,8 @@ const GalleryCard = ({ project, onSelectModal, style = {} }) => {
         <img
           src={project.image}
           alt={project.name}
+          loading="lazy"
+          decoding="async"
           style={{
             width: "100%",
             height: "100%",
