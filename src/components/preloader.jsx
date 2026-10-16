@@ -153,6 +153,7 @@ const Preloader = ({ onComplete }) => {
     //    so they are decoded and ready the instant the site is revealed ──
     const PRELOAD_IMAGES = [
       "/pass.webp",
+      "/proofline.webp",
       "/truedoc.webp",
       "/project1.webp",
       "/project2.webp",

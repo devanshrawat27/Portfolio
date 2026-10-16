@@ -6,6 +6,9 @@ import {
   FaCogs,
   FaProjectDiagram,
   FaDatabase,
+  FaVial,
+  FaLayerGroup,
+  FaShieldAlt,
 } from "react-icons/fa";
 import {
   SiReact,
@@ -37,6 +40,11 @@ import {
   SiDocker,
   SiPydantic,
   SiOllama,
+  SiNestjs,
+  SiPrisma,
+  SiRedis,
+  SiJest,
+  SiZod,
 } from "react-icons/si";
 
 export const LIME = "#a3e635";
@@ -88,4 +96,12 @@ export const TECH_ICONS_MAP = {
   "Qdrant": { icon: FaDatabase, color: "#DC244C" },
   "JWT": { icon: FaCode, color: "#FB015B" },
   "Docker": { icon: SiDocker, color: "#2496ED" },
+  "NestJS": { icon: SiNestjs, color: "#E0234E" },
+  "Prisma": { icon: SiPrisma, color: "#5A67D8" },
+  "Redis": { icon: SiRedis, color: "#DC382D" },
+  "Jest": { icon: SiJest, color: "#C21325" },
+  "Zod": { icon: SiZod, color: "#3E67B1" },
+  "Playwright": { icon: FaVial, color: "#2EAD33" },
+  "BullMQ": { icon: FaLayerGroup, color: "#DC382D" },
+  "RBAC": { icon: FaShieldAlt, color: LIME },
 };
