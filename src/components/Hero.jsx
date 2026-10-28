@@ -11,7 +11,7 @@ const Hero = () => {
   // Both sides rotate together as pairs
   const rotatingPairs = [
     { left: ["FULL", "STACK"], right: ["DEVELOPER"] },
-    { left: ["AI"], right: ["ENGINEER"] },
+    { left: ["AGENTIC", "AI"], right: ["ENGINEER"] },
   ];
 
   const { scrollY } = useScroll();
@@ -62,6 +62,14 @@ const Hero = () => {
     return isDesktop ? outlineTitle.fontSize : "clamp(2.4rem, 11vw, 3.8rem)";
   };
 
+  // Helper: keep the longer "AGENTIC" word from overflowing
+  const getLeftFontSize = (word, isDesktop) => {
+    if (word === "AGENTIC") {
+      return isDesktop ? "clamp(1.8rem, 4.6vw, 4.6rem)" : "clamp(1.5rem, 8vw, 2.4rem)";
+    }
+    return isDesktop ? outlineTitle.fontSize : mobileOutline.fontSize;
+  };
+
   if (isMobile) {
     return (
       <section id="home" style={{
@@ -95,7 +103,7 @@ const Hero = () => {
               transition={{ duration: 0.35, ease: "easeOut" }}
             >
               {currentPair.left.map((word, i) => (
-                <h1 key={i} style={{ ...mobileOutline }}>{word}</h1>
+                <h1 key={i} style={{ ...mobileOutline, fontSize: getLeftFontSize(word, false) }}>{word}</h1>
               ))}
             </motion.div>
           </AnimatePresence>
@@ -160,7 +168,7 @@ const Hero = () => {
         </div>
 
         <p style={{ color: "#8a99a8", fontSize: "13.5px", marginTop: "20px", textAlign: "center", maxWidth: "290px", lineHeight: 1.6, position: "relative", zIndex: 2 }}>
-          Passionate Fullstack Developer & AI Engineer building intelligent, real-time web applications.
+          Passionate Fullstack Developer & Agentic AI Engineer building intelligent, real-time web applications.
         </p>
       </section>
     );
@@ -219,7 +227,7 @@ const Hero = () => {
               style={{ textAlign: "right" }}
             >
               {currentPair.left.map((word, i) => (
-                <h1 key={i} style={outlineTitle}>{word}</h1>
+                <h1 key={i} style={{ ...outlineTitle, fontSize: getLeftFontSize(word, true) }}>{word}</h1>
               ))}
             </motion.div>
           </AnimatePresence>
@@ -295,7 +303,7 @@ const Hero = () => {
             lineHeight: 1.6,
             fontWeight: 400,
           }}>
-            Passionate Fullstack Developer & AI Engineer building intelligent, real-time web applications.
+            Passionate Fullstack Developer & Agentic AI Engineer building intelligent, real-time web applications.
           </p>
         </motion.div>
       </div>

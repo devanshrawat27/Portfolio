@@ -69,7 +69,7 @@ const Footer = () => {
               DEVANSH<span style={{ color: "#a3e635", textShadow: "0 0 12px rgba(163,230,53,0.6)" }}>.</span>
             </div>
             <div style={{ fontFamily: "'JetBrains Mono', 'Courier New', monospace", fontSize: "11px", color: "#a3e635", letterSpacing: "3px", fontWeight: 700, lineHeight: 1.6 }}>
-              AI ENGINEER &amp; FULL STACK DEVELOPER
+              AGENTIC AI ENGINEER &amp; FULL STACK DEVELOPER
             </div>
             <div style={{
               width: "48px",
