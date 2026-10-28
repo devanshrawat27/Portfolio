@@ -149,12 +149,11 @@ const Preloader = ({ onComplete }) => {
   }, [onComplete]);
 
   useEffect(() => {
-    // ── Preload every portfolio image while the preloader plays,
-    //    so they are decoded and ready the instant the site is revealed ──
-    const PRELOAD_IMAGES = [
-      "/pass.webp",
-      "/relaycheck.webp",
-      "/proofline.webp",
+    // ── Preload portfolio images while the preloader plays ──
+    // Only the hero + first two project images block the reveal; the rest
+    // load in the background so the first paint is never held back.
+    const CRITICAL_IMAGES = ["/pass.webp", "/relaycheck.webp", "/proofline.webp"];
+    const BACKGROUND_IMAGES = [
       "/truedoc.webp",
       "/project1.webp",
       "/project2.webp",
@@ -165,41 +164,26 @@ const Preloader = ({ onComplete }) => {
       "/project7.webp",
       "/project8.webp",
     ];
-    // Promise that resolves once every image is preloaded (or a hard 4s cap,
-    // so slow networks never trap the visitor on the preloader).
-    const imagesReady = new Promise((resolve) => {
-      let settled = false;
-      let remaining = PRELOAD_IMAGES.length;
-      const done = () => {
-        if (!settled) {
-          settled = true;
-          resolve();
-        }
-      };
-      const guard = setTimeout(done, 4000);
-      if (remaining === 0) {
-        clearTimeout(guard);
-        done();
-        return;
-      }
-      PRELOAD_IMAGES.forEach((src) => {
+
+    const preload = (src) =>
+      new Promise((resolve) => {
         const img = new Image();
         img.decoding = "async";
-        img.onload = () => {
-          if (--remaining === 0) {
-            clearTimeout(guard);
-            done();
-          }
-        };
-        img.onerror = () => {
-          if (--remaining === 0) {
-            clearTimeout(guard);
-            done();
-          }
-        };
+        img.onload = resolve;
+        img.onerror = resolve;
         img.src = src;
       });
-    });
+
+    // Fire everything immediately; only the critical set gates the reveal.
+    CRITICAL_IMAGES.forEach(preload);
+    BACKGROUND_IMAGES.forEach(preload);
+
+    // Resolves when the critical images are ready (2.5s safety cap),
+    // so slow networks never trap the visitor on the preloader.
+    const imagesReady = Promise.race([
+      Promise.all(CRITICAL_IMAGES.map(preload)),
+      new Promise((resolve) => setTimeout(resolve, 2500)),
+    ]);
 
     if (reducedMotion) {
       const t = setTimeout(finish, 300);
