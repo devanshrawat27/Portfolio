@@ -45,6 +45,7 @@ import {
   SiRedis,
   SiJest,
   SiZod,
+  SiRabbitmq,
 } from "react-icons/si";
 
 export const LIME = "#a3e635";
@@ -103,5 +104,6 @@ export const TECH_ICONS_MAP = {
   "Zod": { icon: SiZod, color: "#3E67B1" },
   "Playwright": { icon: FaVial, color: "#2EAD33" },
   "BullMQ": { icon: FaLayerGroup, color: "#DC382D" },
+  "RabbitMQ": { icon: SiRabbitmq, color: "#FF6600" },
   "RBAC": { icon: FaShieldAlt, color: LIME },
 };

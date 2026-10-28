@@ -275,7 +275,7 @@ const CinematicSlide = ({ project, direction, goNext, goPrev }) => {
           >
             {/* Primary CTA: View Project with lime energy aura & sweep */}
             <a
-              href={project.github}
+              href={project.live || project.github}
               target="_blank"
               rel="noopener noreferrer"
               onMouseEnter={() => setBtnHov1(true)}
@@ -658,7 +658,7 @@ const MobileCard = ({ project }) => (
       {/* Actions */}
       <div style={{ display: "flex", gap: "8px" }}>
         <a
-          href={project.github}
+          href={project.live || project.github}
           target="_blank"
           rel="noopener noreferrer"
           style={{
