@@ -58,7 +58,7 @@ const About = () => {
         </motion.h2>
 
         <motion.p {...fadeUp(0.1)} style={{ fontSize: "clamp(14px, 3.5vw, 16px)", color: "#aaaaaa", lineHeight: "1.85", margin: 0 }}>
-          Hey! I'm <span style={{ color: "#fff", fontWeight: 700 }}>Devansh Rawat</span> — a final year B.Tech CSE student passionate about <span style={{ color: "#e0e0e0", fontWeight: 600 }}>AI Engineering</span> and <span style={{ color: "#e0e0e0", fontWeight: 600 }}>Full-Stack Development</span>.
+          Hey! I'm <span style={{ color: "#fff", fontWeight: 700 }}>Devansh Rawat</span> — a final year B.Tech CSE student passionate about <span style={{ color: "#e0e0e0", fontWeight: 600 }}>Agentic AI Engineering</span> and <span style={{ color: "#e0e0e0", fontWeight: 600 }}>Full-Stack Development</span>.
         </motion.p>
 
         <motion.p {...fadeUp(0.12)} style={{ fontSize: "clamp(14px, 3.5vw, 16px)", color: "#aaaaaa", lineHeight: "1.85", margin: 0 }}>
@@ -235,7 +235,7 @@ const About = () => {
         {/* Domain Pills - Ultra Premium Frosted Capsules without emoji icons */}
         <motion.div {...fadeUp(0.2)} style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
           {[
-            { text: "AI ENGINEERING", color: "#a3e635" },
+            { text: "AGENTIC AI ENGINEERING", color: "#a3e635" },
             { text: "FULL-STACK", color: "#61DAFB" },
           ].map(({ text, color }) => (
             <motion.div
